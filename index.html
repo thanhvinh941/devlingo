@@ -1033,52 +1033,79 @@ function renderSettings(){
   var cfg=DB.settings;
   var front=cfg.front||['word'], back=cfg.back||['ipa','meaning','example'];
   var FIELDS=[{id:'word',lbl:'Từ tiếng Anh'},{id:'ipa',lbl:'Phiên âm IPA'},{id:'meaning',lbl:'Nghĩa tiếng Việt'},{id:'example',lbl:'Câu ví dụ'}];
-
-  var faceCheck=(side,f)=>'<label class="face-field"><input type="checkbox" '+(side==='front'?front:back).includes(f.id)?'checked':''+'onchange="toggleFace(\''+side+'\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>';
+  var prov=cfg.provider||'gemini';
+  var key=cfg.apiKey||'';
+  var keyMask=key?key.slice(0,8)+'••••••••••••'+key.slice(-4):'';
+  var pInfo={
+    gemini:{label:'✦ Gemini 1.5 Flash',hint:'Miễn phí — không cần thẻ credit',url:'aistudio.google.com/app/apikey',ph:'AIzaSy...'},
+    anthropic:{label:'◆ Anthropic Claude',hint:'Trả theo usage (~$0.002/lần)',url:'console.anthropic.com → API Keys',ph:'sk-ant-api03-...'}
+  };
 
   var h='<div class="ph"><div class="ph-left"><div class="ph-title">Cài đặt</div>'+
     '<div class="ph-sub">Quản lý lộ trình và cấu hình thẻ học</div></div></div><div class="pb">';
 
-  // API KEY
-  var keyVal=DB.settings.apiKey||'';
-  var keyMasked=keyVal?keyVal.slice(0,12)+'••••••••••••••••••••'+keyVal.slice(-4):'';
-  h+='<div style="margin-bottom:28px;"><div class="slbl">Anthropic API Key</div>'+
-    '<div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:16px 18px;">'+
-    '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'+
-    '<div style="flex:1;min-width:200px;">'+
-    (keyVal
-      ? '<div style="font-family:var(--mono);font-size:13px;color:var(--green);margin-bottom:4px;">✓ Đã cấu hình</div>'+
-        '<div style="font-family:var(--mono);font-size:12px;color:var(--text3);">'+keyMasked+'</div>'
-      : '<div style="font-size:13px;color:var(--red);margin-bottom:4px;">⚠ Chưa có API Key — chức năng Generate với AI chưa hoạt động</div>'+
-        '<div style="font-size:12px;color:var(--text3);">Lấy key tại console.anthropic.com → API Keys</div>'
-    )+
+  /* ── API KEY ── */
+  h+='<div style="margin-bottom:24px;"><div class="slbl">🔑 AI Provider & API Key</div>'+
+    '<div class="card">'+
+
+    '<div style="margin-bottom:14px;">'+
+    '<div style="font-size:12px;color:var(--text2);font-weight:500;margin-bottom:8px;">Chọn AI Provider</div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;">'+
+    '<button onclick="setProvider(\'gemini\')" class="btn btn-sm '+(prov==='gemini'?'btn-primary':'btn-ghost')+'">✦ Gemini Free</button>'+
+    '<button onclick="setProvider(\'anthropic\')" class="btn btn-sm '+(prov==='anthropic'?'btn-primary':'btn-ghost')+'">◆ Anthropic</button>'+
     '</div>'+
-    '<button class="btn '+(keyVal?'btn-ghost':'btn-primary')+' btn-sm" onclick="modalApiKey()">'+
-    (keyVal?'Đổi key':'Nhập API Key')+'</button>'+
-    (keyVal?'<button class="btn btn-danger btn-sm" onclick="removeApiKey()">Xóa key</button>':'')+
-    '</div></div></div>';
+    '<div style="font-size:11px;color:var(--text3);margin-top:6px;">'+pInfo[prov].hint+'</div>'+
+    '</div>'+
 
-  // CARD CONFIG
-  h+='<div style="margin-bottom:28px;"><div class="slbl">Cấu hình thẻ học</div>'+
-    '<div class="face-box"><div class="face-ttl">Mặt trước (câu hỏi)</div><div class="face-fields">';
-  FIELDS.forEach(f=>{ h+='<label class="face-field"><input type="checkbox" '+(front.includes(f.id)?'checked':'')+' onchange="toggleFace(\'front\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>'; });
-  h+='</div></div><div class="face-box"><div class="face-ttl">Mặt sau (đáp án)</div><div class="face-fields">';
-  FIELDS.forEach(f=>{ h+='<label class="face-field"><input type="checkbox" '+(back.includes(f.id)?'checked':'')+' onchange="toggleFace(\'back\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>'; });
-  h+='</div></div></div>';
+    '<div style="font-size:12px;color:var(--text2);margin-bottom:8px;">'+
+    'Lấy key miễn phí tại: <strong style="color:var(--accent);">'+pInfo[prov].url+'</strong>'+
+    '</div>'+
 
-  // TOPICS CONFIG
-  h+='<div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
+    (key
+      ? '<div style="display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:var(--r2);padding:8px 12px;margin-bottom:10px;">'+
+        '<span style="width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;display:inline-block;"></span>'+
+        '<span style="font-family:var(--mono);font-size:12px;color:var(--text2);flex:1;">'+keyMask+'</span>'+
+        '<span style="font-size:12px;color:var(--green);font-weight:600;">✓ Đã có key</span></div>'
+      : '<div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:var(--r2);padding:9px 12px;margin-bottom:10px;font-size:12px;color:var(--yellow);">'+
+        '⚠️ Chưa có API Key — Generate sẽ không hoạt động</div>'
+    )+
+
+    '<div style="display:flex;gap:8px;">'+
+    '<input class="inp" id="key-inp" type="password" placeholder="'+pInfo[prov].ph+'" '+
+    'style="flex:1;font-family:var(--mono);font-size:13px;" value="'+(key||'')+'"/>'+
+    '<button class="btn btn-primary btn-sm" onclick="doSaveKey()">Lưu key</button>'+
+    (key?'<button class="btn btn-danger btn-sm" onclick="doRemoveKey()">Xóa</button>':'')+
+    '</div>'+
+    '<div style="font-size:11px;color:var(--text3);margin-top:8px;">🔒 Key lưu trong localStorage, chỉ gửi tới AI provider bạn chọn.</div>'+
+    '</div></div>';
+
+  /* ── CARD CONFIG ── */
+  h+='<div style="margin-bottom:24px;"><div class="slbl">Cấu hình thẻ học</div>';
+  var mkFace=(side,arr)=>{
+    return '<div class="face-box"><div class="face-ttl">'+
+      (side==='front'?'Mặt trước (câu hỏi)':'Mặt sau (đáp án)')+
+      '</div><div class="face-fields">'+
+      FIELDS.map(f=>'<label class="face-field"><input type="checkbox" '+(arr.includes(f.id)?'checked':'')+
+        ' onchange="toggleFace(\''+side+'\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>').join('')+
+      '</div></div>';
+  };
+  h+=mkFace('front',front)+mkFace('back',back)+'</div>';
+
+  /* ── TOPICS ── */
+  h+='<div style="margin-bottom:24px;">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">'+
     '<div class="slbl" style="margin-bottom:0;">Cấu hình lộ trình học</div>'+
-    '<button class="btn btn-primary btn-sm" onclick="modalAddTopic()">+ Thêm topic lớn</button></div>';
+    '<button class="btn btn-primary btn-sm" onclick="modalAddTopic()">+ Thêm topic</button>'+
+    '</div>';
 
   DB.topics.forEach((t,ti)=>{
     h+='<div class="tg"><div class="tg-header">'+
       '<span class="tg-icon">'+t.icon+'</span>'+
-      '<div><div class="tg-title">'+t.title+'</div><div style="font-size:11px;color:var(--text3);">'+t.desc+'</div></div>'+
+      '<div><div class="tg-title">'+t.title+'</div>'+
+      '<div style="font-size:11px;color:var(--text3);">'+t.desc+'</div></div>'+
       '<button class="btn btn-ghost btn-sm" onclick="modalEditTopic('+ti+')">Sửa</button>'+
       '<button class="btn btn-danger btn-sm" onclick="modalDeleteTopic('+ti+')">Xóa</button>'+
       '</div><div class="tg-body">';
-
     t.subs.forEach((s,si)=>{
       var sc=DB.forSub(s.id).length;
       h+='<div class="sti">'+
@@ -1091,51 +1118,20 @@ function renderSettings(){
         '<button class="btn btn-danger btn-sm" style="font-size:11px;" onclick="modalDeleteSub('+ti+','+si+')">Xóa</button>'+
         '</div></div>';
     });
-
     h+='<button class="add-sub-btn" onclick="modalAddSub('+ti+')">+ Thêm tình huống nhỏ</button>';
     h+='</div></div>';
   });
   h+='</div>';
 
-  // DATA
-  // API KEY SECTION
-  var key=DB.settings.apiKey||'';
-  var keyMasked=key?key.substring(0,10)+'••••••••••••••••••••':'' ;
-  h+='<div class="div"></div><div class="slbl">Anthropic API Key</div>'+
-    '<div style="background:var(--bg3);border-radius:var(--r);padding:16px 20px;margin-bottom:20px;">'+
-    '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'+
-    '<div style="flex:1;min-width:0;">'+
-    (key
-      ? '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">'+
-        '<span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>'+
-        '<span style="font-size:13px;font-weight:600;color:var(--green);">Đã có API Key</span></div>'+
-        '<div style="font-family:var(--mono);font-size:12px;color:var(--text3);">'+keyMasked+'</div>'
-      : '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">'+
-        '<span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>'+
-        '<span style="font-size:13px;font-weight:600;color:var(--red);">Chưa có API Key — Generate với AI sẽ không hoạt động</span></div>'+
-        '<div style="font-size:12px;color:var(--text3);">Lấy key tại <span style="color:var(--accent);">console.anthropic.com</span> → API Keys</div>'
-    )+
-    '</div>'+
-    '<div style="display:flex;gap:8px;margin-top:12px;">'+
-    '<input class="inp" id="key-inp" type="password" placeholder="sk-ant-api03-..." '+
-    'style="flex:1;font-family:var(--mono);font-size:13px;" value="'+(key||'')+'"/>'+
-    '<button class="btn btn-primary btn-sm" onclick="doSaveKey()">Lưu key</button>'+
-    (key?'<button class="btn btn-danger btn-sm" onclick="doRemoveKey()">Xóa</button>':'')+
-    '</div>'+
-    '<div style="font-size:11px;color:var(--text3);margin-top:8px;">🔒 Key lưu trong localStorage, chỉ gửi tới Anthropic API.</div>'+
-    '</div></div>'+
-
-    '<div class="div"></div><div class="slbl">Bảo mật</div>'+
-    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">'+
-    '<button class="btn btn-ghost" onclick="changePw()">🔑 Đổi mật khẩu</button>'+
-    '<button class="btn btn-danger" onclick="logout()">Đăng xuất</button>'+
-    '</div>'+
-    '<div class="slbl">Bảo mật</div>'+
+  /* ── SECURITY ── */
+  h+='<div class="div"></div><div class="slbl">Bảo mật</div>'+
     '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">'+
     '<button class="btn btn-ghost" onclick="changePw()">🔑 Đổi mật khẩu</button>'+
     '<button class="btn btn-danger" onclick="doLogout()">Đăng xuất</button>'+
-    '</div>'+
-    '<div class="slbl">Dữ liệu</div>'+
+    '</div>';
+
+  /* ── DATA ── */
+  h+='<div class="slbl">Dữ liệu</div>'+
     '<div style="display:flex;gap:10px;flex-wrap:wrap;">'+
     '<button class="btn btn-ghost" onclick="exportData()">↑ Export JSON</button>'+
     '<button class="btn btn-ghost" onclick="triggerImport()">↓ Import JSON</button>'+
@@ -1145,6 +1141,7 @@ function renderSettings(){
   h+='</div>';
   document.getElementById('main').innerHTML=h;
 }
+
 
 function toggleFace(side,fid,checked){
   var arr=side==='front'?(DB.settings.front||[]):(DB.settings.back||[]);
@@ -1285,6 +1282,13 @@ function saveApiKey(){
   if(!v.startsWith('sk-')){toast('Key không hợp lệ — phải bắt đầu sk-','err');return;}
   DB.settings.apiKey=v; DB.save(); closeModal(); renderSettings(); toast('✓ Đã lưu API Key','ok');
 }
+function setProvider(p){
+  DB.settings.provider=p;
+  DB.save();
+  renderSettings();
+  toast('Đã chuyển sang '+(p==='gemini'?'Gemini Free ✦':'Anthropic Claude ◆'),'ok');
+}
+
 function doSaveKey(){
   var inp=document.getElementById('key-inp');
   if(!inp||!inp.value.trim()){toast('Nhập API key trước!','err');return;}

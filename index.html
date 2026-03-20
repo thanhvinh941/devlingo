@@ -1283,17 +1283,26 @@ function saveApiKey(){
   DB.settings.apiKey=v; DB.save(); closeModal(); renderSettings(); toast('✓ Đã lưu API Key','ok');
 }
 function setProvider(p){
+  if(DB.settings.provider===p) return;
   DB.settings.provider=p;
+  // Clear key when switching provider (different formats)
+  DB.settings.apiKey='';
   DB.save();
   renderSettings();
-  toast('Đã chuyển sang '+(p==='gemini'?'Gemini Free ✦':'Anthropic Claude ◆'),'ok');
+  toast('Đã chuyển sang '+(p==='gemini'?'Gemini Free ✦':'Anthropic Claude ◆')+' — nhập key mới nhé!','ok');
 }
 
 function doSaveKey(){
   var inp=document.getElementById('key-inp');
   if(!inp||!inp.value.trim()){toast('Nhập API key trước!','err');return;}
   var k=inp.value.trim();
-  if(!k.startsWith('sk-')){toast('Key không hợp lệ — phải bắt đầu bằng sk-','err');return;}
+  var prov=DB.settings.provider||'gemini';
+  if(prov==='gemini'&&!k.startsWith('AIza')){
+    toast('Gemini key phải bắt đầu bằng AIza...','err');return;
+  }
+  if(prov==='anthropic'&&!k.startsWith('sk-')){
+    toast('Anthropic key phải bắt đầu bằng sk-...','err');return;
+  }
   DB.settings.apiKey=k; DB.save();
   toast('✓ Đã lưu API key!','ok');
   renderSettings();

@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DevLingo — Tiếng Anh cho Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0a0a0f;--bg2:#111118;--bg3:#1a1a24;--bg4:#22222f;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --accent:#7c6aff;--accent2:#a855f7;
+  --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#3b82f6;
+  --text:#f0f0f8;--text2:#9090a8;--text3:#5a5a72;
+  --mono:'JetBrains Mono',monospace;--sans:'Space Grotesk',sans-serif;
+  --r:12px;--r2:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px;}
+
+.shell{display:flex;height:100vh;}
+.sidebar{width:220px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.main{flex:1;overflow-y:auto;}
+
+/* LOGO */
+.logo{padding:20px 20px 16px;border-bottom:1px solid var(--border);}
+.logo-text{font-size:18px;font-weight:700;letter-spacing:-.5px;}
+.logo-text span{color:var(--accent);}
+.logo-sub{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--mono);}
+
+/* NAV */
+.nav{padding:12px 10px;flex:1;}
+.nav-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:14px 10px 6px;font-family:var(--mono);}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r2);cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:all .15s;margin-bottom:2px;border:none;background:transparent;width:100%;text-align:left;}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:linear-gradient(135deg,rgba(124,106,255,.2),rgba(168,85,247,.1));color:var(--accent);border:1px solid rgba(124,106,255,.2);}
+.nav-ico{width:16px;height:16px;flex-shrink:0;opacity:.6;}
+.nav-item.active .nav-ico{opacity:1;}
+
+/* STREAK */
+.streak-bar{padding:12px 14px;border-top:1px solid var(--border);}
+.streak-inner{background:var(--bg3);border-radius:var(--r2);padding:10px 12px;display:flex;align-items:center;gap:10px;}
+.streak-num{font-size:18px;font-weight:700;color:var(--yellow);}
+.streak-lbl{font-size:11px;color:var(--text3);}
+
+/* PAGE */
+.ph{padding:24px 32px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.ph-left{}
+.ph-title{font-size:22px;font-weight:700;letter-spacing:-.5px;}
+.ph-sub{font-size:13px;color:var(--text2);margin-top:4px;}
+.ph-actions{display:flex;gap:8px;flex-shrink:0;padding-top:4px;}
+.pb{padding:24px 32px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--r2);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:var(--sans);}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:#6b5aee;}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.btn-danger{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2);}
+.btn-danger:hover{background:rgba(239,68,68,.22);}
+.btn-success{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);}
+.btn-sm{padding:6px 12px;font-size:12px;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* BADGE */
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;font-family:var(--mono);}
+.b-purple{background:rgba(124,106,255,.2);color:var(--accent);}
+.b-green{background:rgba(34,197,94,.15);color:var(--green);}
+.b-yellow{background:rgba(245,158,11,.15);color:var(--yellow);}
+.b-red{background:rgba(239,68,68,.15);color:var(--red);}
+.b-blue{background:rgba(59,130,246,.15);color:var(--blue);}
+.b-gray{background:var(--bg3);color:var(--text3);border:1px solid var(--border);}
+
+/* CARD */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.card-sm{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* INPUT */
+.inp{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:10px 14px;color:var(--text);font-family:var(--sans);font-size:14px;outline:none;transition:border-color .15s;}
+.inp:focus{border-color:var(--accent);}
+.inp::placeholder{color:var(--text3);}
+textarea.inp{resize:vertical;min-height:72px;line-height:1.6;}
+select.inp{cursor:pointer;}
+.lbl{font-size:12px;color:var(--text2);margin-bottom:6px;font-weight:500;display:block;}
+.field{margin-bottom:14px;}
+
+/* PROG */
+.prog-track{height:4px;background:var(--bg4);border-radius:2px;overflow:hidden;}
+.prog-fill{height:4px;border-radius:2px;transition:width .5s;}
+.pf-accent{background:var(--accent);}
+.pf-green{background:var(--green);}
+
+/* STAT */
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:center;}
+.stat-num{font-size:32px;font-weight:700;letter-spacing:-1px;}
+.stat-lbl{font-size:12px;color:var(--text2);margin-top:4px;}
+
+/* FLASHCARD */
+.fc-scene{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:14px 18px;margin-bottom:18px;font-size:13px;color:var(--text2);line-height:1.6;}
+.fc-scene strong{color:var(--text);}
+.fc-wrap{perspective:1000px;margin-bottom:20px;}
+.fc{width:100%;min-height:220px;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);cursor:pointer;}
+.fc.flipped{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);border:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;}
+.fc-front{background:linear-gradient(135deg,var(--bg2),var(--bg3));}
+.fc-back{background:linear-gradient(135deg,var(--bg3),rgba(124,106,255,.08));transform:rotateY(180deg);}
+.fc-word{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;}
+.fc-ipa{font-family:var(--mono);font-size:13px;color:var(--accent);margin-bottom:6px;}
+.fc-vi{font-size:17px;font-weight:600;margin-bottom:6px;}
+.fc-ex{font-size:13px;color:var(--text2);font-style:italic;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.6;}
+.fc-hint{font-size:11px;color:var(--text3);margin-top:10px;}
+
+/* RATE */
+.rate-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px;}
+.rate-btn{padding:12px 6px;border-radius:var(--r2);font-size:12px;font-weight:700;cursor:pointer;border:1px solid;transition:all .15s;text-align:center;font-family:var(--sans);background:transparent;}
+.rate-btn:hover{transform:translateY(-2px);}
+.r-again{color:var(--red);border-color:rgba(239,68,68,.3);}
+.r-again:hover{background:rgba(239,68,68,.12);}
+.r-hard{color:var(--yellow);border-color:rgba(245,158,11,.3);}
+.r-hard:hover{background:rgba(245,158,11,.12);}
+.r-good{color:var(--blue);border-color:rgba(59,130,246,.3);}
+.r-good:hover{background:rgba(59,130,246,.12);}
+.r-easy{color:var(--green);border-color:rgba(34,197,94,.3);}
+.r-easy:hover{background:rgba(34,197,94,.12);}
+.rate-day{font-size:10px;color:var(--text3);margin-top:3px;}
+
+/* GYM */
+.blank{display:inline-block;min-width:140px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:4px 10px;font-family:var(--mono);font-size:14px;vertical-align:middle;outline:none;color:var(--text);transition:border-color .15s;}
+.blank:focus{border-color:var(--accent);}
+.blank.ok{border-color:var(--green)!important;background:rgba(34,197,94,.08);color:var(--green);}
+.blank.err{border-color:var(--red)!important;background:rgba(239,68,68,.08);color:var(--red);}
+.gym-sentence{font-size:17px;line-height:2.4;color:var(--text);margin-bottom:20px;}
+.fb-good{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:var(--r2);padding:12px 16px;color:var(--green);font-size:13px;line-height:1.6;}
+.fb-bad{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:var(--r2);padding:12px 16px;color:var(--red);font-size:13px;line-height:1.6;}
+.fb-info{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:12px 16px;font-size:13px;line-height:1.6;}
+
+/* TOPIC CARD (roadmap) */
+.tc{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .2s;}
+.tc:hover{border-color:rgba(124,106,255,.3);transform:translateY(-2px);}
+.tc:hover::before{opacity:1;}
+.tc.done{border-color:rgba(34,197,94,.2);}
+.tc.done::before{opacity:1;background:var(--green);}
+.tc-icon{font-size:22px;margin-bottom:10px;}
+.tc-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.tc-desc{font-size:12px;color:var(--text2);margin-bottom:12px;line-height:1.5;}
+.tc-footer{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;}
+
+/* SUBTOPIC ITEM in settings */
+.sti{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--bg3);border-radius:var(--r2);margin-bottom:8px;transition:background .15s;}
+.sti:hover{background:var(--bg4);}
+.sti-icon{font-size:16px;flex-shrink:0;margin-top:2px;}
+.sti-content{flex:1;min-width:0;}
+.sti-title{font-size:13px;font-weight:600;color:var(--text);}
+.sti-desc{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.5;}
+.sti-actions{display:flex;gap:6px;flex-shrink:0;}
+
+/* TOPIC GROUP in settings */
+.tg{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;}
+.tg-header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg3);}
+.tg-icon{font-size:20px;}
+.tg-title{flex:1;font-weight:700;font-size:15px;}
+.tg-body{padding:14px 16px;}
+.add-sub-btn{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--r2);border:1px dashed var(--border2);color:var(--text3);font-size:12px;cursor:pointer;transition:all .15s;background:transparent;width:100%;font-family:var(--sans);}
+.add-sub-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.mo.open{opacity:1;pointer-events:all;}
+.mo-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:28px;width:520px;max-width:94vw;max-height:90vh;overflow-y:auto;transform:scale(.95);transition:transform .2s;}
+.mo.open .mo-box{transform:scale(1);}
+.mo-title{font-size:17px;font-weight:700;margin-bottom:20px;}
+.mo-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:24px;right:24px;z-index:300;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:11px 16px;font-size:13px;display:flex;align-items:center;gap:8px;animation:tIn .2s ease;max-width:300px;}
+.t-ok{border-color:rgba(34,197,94,.3);color:var(--green);}
+.t-err{border-color:rgba(239,68,68,.3);color:var(--red);}
+.t-info{border-color:rgba(124,106,255,.3);color:var(--accent);}
+@keyframes tIn{from{transform:translateX(16px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* LOADING */
+.spin{width:16px;height:16px;border:2px solid var(--bg4);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{display:flex;align-items:center;gap:10px;color:var(--text2);font-size:13px;padding:20px 0;}
+
+/* EMPTY */
+.empty{text-align:center;padding:56px 20px;color:var(--text3);}
+.empty-ico{font-size:40px;margin-bottom:12px;}
+
+/* RESULT */
+.result-wrap{text-align:center;padding:40px 20px;}
+.result-big{font-size:52px;font-weight:700;letter-spacing:-2px;}
+.result-sub{font-size:14px;color:var(--text2);margin-top:6px;margin-bottom:24px;}
+.result-stats{display:flex;justify-content:center;gap:28px;margin-bottom:28px;}
+.rs-item .rs-num{font-size:24px;font-weight:700;}
+.rs-item .rs-lbl{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* FACE CONFIG */
+.face-box{background:var(--bg3);border-radius:var(--r2);padding:14px 16px;margin-bottom:10px;}
+.face-ttl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-family:var(--mono);}
+.face-fields{display:flex;flex-wrap:wrap;gap:12px;}
+.face-field{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;color:var(--text2);}
+.face-field input{accent-color:var(--accent);width:15px;height:15px;cursor:pointer;}
+
+/* DUE DOT */
+.due-dot{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;margin-left:4px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* DIVIDER */
+.div{height:1px;background:var(--border);margin:20px 0;}
+
+/* SECTION LABEL */
+.slbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;font-family:var(--mono);}
+
+/* ══ MOBILE BOTTOM NAV ══ */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);z-index:50;padding:0 8px;padding-bottom:env(safe-area-inset-bottom);}
+.mobile-nav-inner{display:flex;align-items:stretch;}
+.mn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;cursor:pointer;border:none;background:transparent;color:var(--text3);font-size:10px;font-weight:600;font-family:var(--sans);gap:4px;transition:color .15s;position:relative;}
+.mn-item.active{color:var(--accent);}
+.mn-item svg{width:20px;height:20px;}
+.mn-due{position:absolute;top:6px;right:calc(50% - 16px);width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;}
+
+@media(max-width:768px){
+  /* Layout */
+  .shell{flex-direction:column;height:100dvh;}
+  .sidebar{display:none;}
+  .main{flex:1;overflow-y:auto;padding-bottom:70px;}
+  .mobile-nav{display:block;}
+
+  /* Page header */
+  .ph{padding:16px 16px 14px;flex-wrap:wrap;gap:10px;}
+  .ph-title{font-size:18px;}
+  .ph-actions{width:100%;display:flex;gap:8px;flex-wrap:wrap;}
+  .ph-actions .btn{flex:1;justify-content:center;}
+
+  /* Page body */
+  .pb{padding:14px 16px 16px;}
+
+  /* Grids */
+  .g2,.g3{grid-template-columns:1fr;}
+
+  /* Topic cards */
+  .tc{padding:14px;}
+  .tc-icon{font-size:18px;margin-bottom:6px;}
+
+  /* Flashcard */
+  .fc{min-height:200px;}
+  .fc-face{padding:20px 16px;}
+  .fc-word{font-size:22px;}
+  .fc-vi{font-size:15px;}
+  .fc-ex{font-size:12px;}
+
+  /* Rate buttons */
+  .rate-row{grid-template-columns:1fr 1fr;gap:8px;}
+  .rate-btn{padding:14px 4px;font-size:13px;}
+
+  /* Settings topic groups */
+  .tg-header{flex-wrap:wrap;gap:8px;}
+  .tg-header .btn{padding:5px 10px;font-size:11px;}
+  .sti{flex-wrap:wrap;}
+  .sti-actions{width:100%;display:flex;gap:6px;margin-top:4px;}
+  .sti-actions .btn{flex:1;justify-content:center;}
+
+  /* Stats grid */
+  .stat-card{padding:14px 10px;}
+  .stat-num{font-size:26px;}
+
+  /* Gym sentence */
+  .gym-sentence{font-size:15px;}
+  .blank{min-width:110px;font-size:13px;}
+
+  /* Buttons full width in some contexts */
+  .result-wrap .btn{min-width:120px;}
+  .result-stats{gap:16px;}
+  .rc-big, .result-big{font-size:42px;}
+
+  /* Cards */
+  .card{padding:14px;}
+  .card-sm{padding:10px 12px;}
+
+  /* Face config */
+  .face-fields{gap:14px;}
+
+  /* API key block */
+  #key-inp{font-size:12px;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-text">Dev<span>Lingo</span></div><div class="logo-sub">// english for devs</div></div>
+    <nav class="nav">
+      <div class="nav-section">Learn</div>
+      <button class="nav-item active" id="nb-roadmap" onclick="nav('roadmap')">
+        <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        Lộ trình
+      </button>
+      <button class="nav-item" id="nb-gym" onclick="nav('gym')">
+        <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4M8 12h8"/></svg>
+        Gym <span id="due-dot" style="display:none" class="due-dot"></span>
+      </button>
+      <div class="nav-section">Config</div>
+      <button class="nav-item" id="nb-settings" onclick="nav('settings')">
+        <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Cài đặt
+      </button>
+    </nav>
+    <div class="streak-bar"><div class="streak-inner"><span style="font-size:18px;">🔥</span><div><div class="streak-num" id="streak-num">0</div><div class="streak-lbl">ngày liên tiếp</div></div></div></div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="mo" id="mo"><div class="mo-box"><div class="mo-title" id="mo-title"></div><div id="mo-body"></div><div class="mo-footer" id="mo-footer"></div></div></div>
+<div class="toast-wrap" id="toasts"></div>
+
+<script>
+/* ─────────────────────────── DB ─────────────────────────── */
+var DB = {
+  cards:{}, topics:[], settings:{}, streak:0, lastStudy:null,
+  init(){
+    try{ var d=JSON.parse(localStorage.getItem('devlingo3')||'{}');
+      this.cards=d.cards||{}; this.topics=d.topics||[];
+      this.settings=d.settings||{}; this.streak=d.streak||0; this.lastStudy=d.lastStudy||null;
+    }catch(e){}
+    if(!this.topics.length) this.topics=defaultTopics();
+    if(!this.settings.front) this.settings.front=['word'];
+    if(!this.settings.back) this.settings.back=['ipa','meaning','example'];
+    if(!this.settings.apiKey) this.settings.apiKey='';
+    this.save();
+  },
+  save(){ try{ localStorage.setItem('devlingo3',JSON.stringify({cards:this.cards,topics:this.topics,settings:this.settings,streak:this.streak,lastStudy:this.lastStudy})); }catch(e){} },
+  due(){ var n=Date.now(); return Object.values(this.cards).filter(c=>c.due<=n); },
+  all(){ return Object.values(this.cards); },
+  forSub(sid){ return Object.values(this.cards).filter(c=>c.sid===sid); },
+  forTopic(tid){ return Object.values(this.cards).filter(c=>c.tid===tid); }
+};
+
+/* ─────────────────────────── DEFAULT TOPICS ─────────────────────────── */
+function defaultTopics(){
+  return [
+    { id:'progress', title:'Báo cáo tiến độ', icon:'📊', desc:'Giao tiếp về tiến độ công việc trong sprint', subs:[
+      { id:'p-done', title:'Báo cáo task đã hoàn thành', icon:'✅', desc:'Thông báo khi task xong sớm hoặc đúng hạn' },
+      { id:'p-late', title:'Giải trình task bị chậm', icon:'⏰', desc:'Giải thích lý do trễ deadline chuyên nghiệp' },
+      { id:'p-bug',  title:'Thông báo vấn đề kỹ thuật', icon:'🐛', desc:'Báo cáo bug, incident cho team' },
+      { id:'p-help', title:'Nhờ team giúp đỡ task khó', icon:'🤝', desc:'Yêu cầu hỗ trợ một cách rõ ràng' },
+      { id:'p-change', title:'Cập nhật thay đổi bất ngờ', icon:'🔄', desc:'Thông báo scope thay đổi từ khách hàng' },
+      { id:'p-all',  title:'Tổng kết — Báo cáo tiến độ', icon:'🏆', desc:'Tổng hợp tất cả vocabulary và phrases của topic này' }
+    ]},
+    { id:'techdesign', title:'Giải trình thiết kế kỹ thuật', icon:'🏗️', desc:'Bảo vệ và giải thích các quyết định kỹ thuật', subs:[
+      { id:'td-defend', title:'Bảo vệ lựa chọn công nghệ', icon:'🛡️', desc:'Thuyết phục sếp về tech stack bạn chọn' },
+      { id:'td-explain', title:'Giải thích thiết kế phức tạp', icon:'🗺️', desc:'Đơn giản hóa kiến trúc cho người không tech' },
+      { id:'td-risk',  title:'Trình bày rủi ro thiết kế', icon:'⚠️', desc:'Nêu trade-off và risk mitigation' },
+      { id:'td-all',  title:'Tổng kết — Thiết kế kỹ thuật', icon:'🏆', desc:'Tổng hợp tất cả vocabulary và phrases' }
+    ]},
+    { id:'codereview', title:'Trao đổi code', icon:'💻', desc:'Giao tiếp hiệu quả trong code review', subs:[
+      { id:'cr-explain', title:'Giải thích logic code', icon:'🔍', desc:'Giải thích đoạn code phức tạp cho đồng nghiệp' },
+      { id:'cr-feedback', title:'Phản hồi comment code review', icon:'💬', desc:'Trả lời comment gay gắt lịch sự, chuyên nghiệp' },
+      { id:'cr-admit',  title:'Thừa nhận sai sót trong code', icon:'🙏', desc:'Nhận lỗi và đề xuất cách sửa' },
+      { id:'cr-naming', title:'Giải thích lựa chọn tên biến', icon:'🏷️', desc:'Bảo vệ naming convention của mình' },
+      { id:'cr-all',  title:'Tổng kết — Trao đổi code', icon:'🏆', desc:'Tổng hợp tất cả vocabulary và phrases' }
+    ]},
+    { id:'requirements', title:'Làm rõ yêu cầu', icon:'📋', desc:'Giao tiếp với PO, PM về requirements', subs:[
+      { id:'rq-clarify', title:'Làm rõ yêu cầu mơ hồ', icon:'❓', desc:'Hỏi lại PO khi requirements chưa rõ' },
+      { id:'rq-edge',  title:'Trình bày edge case với PO', icon:'🔦', desc:'Chỉ ra các trường hợp ngoại lệ PO chưa nghĩ đến' },
+      { id:'rq-limit', title:'Giải thích giới hạn kỹ thuật', icon:'🚧', desc:'Nói với PO khi feature không khả thi kỹ thuật' },
+      { id:'rq-scope', title:'Thương lượng phạm vi sprint', icon:'⚖️', desc:'Negotiate với PO về scope khi team quá tải' },
+      { id:'rq-all',  title:'Tổng kết — Làm rõ yêu cầu', icon:'🏆', desc:'Tổng hợp tất cả vocabulary và phrases' }
+    ]},
+    { id:'demo', title:'Demo & Trình bày tính năng', icon:'🎯', desc:'Thuyết trình và demo sản phẩm', subs:[
+      { id:'dm-present', title:'Trình bày tính năng mới', icon:'✨', desc:'Walk through feature với khách hàng' },
+      { id:'dm-bug',   title:'Xử lý lỗi khi đang demo', icon:'😰', desc:'Bình tĩnh handle khi bug xảy ra trực tiếp' },
+      { id:'dm-feedback', title:'Tiếp nhận phản hồi tiêu cực', icon:'📝', desc:'Nhận feedback từ sếp sau buổi demo' },
+      { id:'dm-all',  title:'Tổng kết — Demo & Trình bày', icon:'🏆', desc:'Tổng hợp tất cả vocabulary và phrases' }
+    ]}
+  ];
+}
+
+/* ─────────────────────────── ANKI SM-2 ─────────────────────────── */
+function rateCard(card, r){ // 0=again 1=hard 2=good 3=easy
+  var ef=card.ef||2.5, iv=card.iv||1, reps=card.reps||0;
+  if(r===0){iv=1;reps=0;}
+  else if(r===1){ef=Math.max(1.3,ef-.15);iv=Math.max(1,Math.round(iv*1.2));reps++;}
+  else if(r===2){iv=reps===0?1:reps===1?4:Math.round(iv*ef);ef+=.1;reps++;}
+  else{iv=reps===0?4:Math.round(iv*ef*1.3);ef+=.15;reps++;}
+  card.ef=Math.min(2.5,Math.max(1.3,ef));
+  card.iv=Math.min(iv,365); card.reps=reps;
+  card.due=Date.now()+card.iv*86400000;
+  DB.save();
+}
+
+function daysUntil(due){ return Math.max(0,Math.ceil((due-Date.now())/86400000)); }
+function nextDays(card,r){
+  var ef=card.ef||2.5,iv=card.iv||1,reps=card.reps||0;
+  if(r===0)return 1;
+  if(r===1)return Math.max(1,Math.round(iv*1.2));
+  if(r===2)return reps===0?1:reps===1?4:Math.round(iv*ef);
+  return reps===0?4:Math.round(iv*ef*1.3);
+}
+
+/* ─────────────────────────── API KEY ─────────────────────────── */
+function getApiKey(){
+  return (DB.settings.apiKey||'').trim();
+}
+function requireApiKey(){
+  var k=getApiKey();
+  if(!k){
+    showModal('Cần API Key',
+      '<div style="color:var(--text2);margin-bottom:16px;">Bạn cần nhập <strong style="color:var(--text)">Anthropic API Key</strong> để dùng tính năng Generate với AI.</div>'+
+      '<div style="background:var(--bg3);border-radius:var(--r2);padding:14px;font-size:13px;color:var(--text2);line-height:1.7;">'+
+      '<div style="margin-bottom:8px;">📌 Cách lấy API Key:</div>'+
+      '<div>1. Vào <strong style="color:var(--accent)">console.anthropic.com</strong></div>'+
+      '<div>2. Đăng ký / đăng nhập tài khoản</div>'+
+      '<div>3. Vào <strong style="color:var(--text)">API Keys</strong> → tạo key mới</div>'+
+      '<div>4. Copy key (bắt đầu bằng <span style="font-family:var(--mono);color:var(--accent)">sk-ant-...</span>)</div></div>'+
+      '<div style="margin-top:14px;"><label class="lbl">Nhập API Key của bạn:</label>'+
+      '<input class="inp" id="quick-key" placeholder="sk-ant-api03-..." style="font-family:var(--mono);font-size:13px;"/>'+
+      '<div style="font-size:11px;color:var(--text3);margin-top:6px;">Key được lưu trong localStorage trên máy bạn, không gửi đi đâu ngoài Anthropic API.</div></div>',
+      [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Lưu & tiếp tục',c:'btn-primary',f:'saveQuickKey()'}]
+    );
+    return false;
+  }
+  return true;
+}
+function modalApiKey(){
+  showModal('Nhập Anthropic API Key',
+    '<div style="background:var(--bg3);border-radius:var(--r2);padding:14px;font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:16px;">'+
+    '1. Vào <strong style="color:var(--accent)">console.anthropic.com</strong><br>'+
+    '2. Đăng ký / đăng nhập<br>'+
+    '3. Vào <strong style="color:var(--text)">API Keys</strong> → Create Key<br>'+
+    '4. Copy key bắt đầu bằng <span style="font-family:var(--mono);color:var(--accent)">sk-ant-...</span>'+
+    '</div>'+
+    '<div class="field"><label class="lbl">API Key</label>'+
+    '<input class="inp" id="m-apikey" placeholder="sk-ant-api03-..." style="font-family:var(--mono);font-size:13px;" value="'+(DB.settings.apiKey||'')+'"/>'+
+    '<div style="font-size:11px;color:var(--text3);margin-top:6px;">Key lưu trong localStorage trên máy bạn. Không gửi đi đâu ngoài Anthropic API.</div></div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Lưu',c:'btn-primary',f:'doSaveApiKey()'}]
+  );
+  setTimeout(()=>{ var i=document.getElementById('m-apikey'); if(i){i.focus();i.select();} },100);
+}
+function doSaveApiKey(){
+  var v=document.getElementById('m-apikey').value.trim();
+  if(!v){toast('Nhập API Key!','err');return;}
+  if(!v.startsWith('sk-')){toast('Key không hợp lệ — phải bắt đầu bằng sk-','err');return;}
+  DB.settings.apiKey=v; DB.save(); closeModal(); renderSettings(); toast('Đã lưu API Key!','ok');
+}
+function removeApiKey(){
+  DB.settings.apiKey=''; DB.save(); renderSettings(); toast('Đã xóa API Key','ok');
+}
+function saveQuickKey(){
+  var v=document.getElementById('quick-key').value.trim();
+  if(!v||!v.startsWith('sk-')){toast('API Key không hợp lệ (phải bắt đầu bằng sk-)','err');return;}
+  DB.settings.apiKey=v; DB.save(); closeModal();
+  toast('Đã lưu API Key!','ok');
+}
+
+/* ─────────────────────────── AI ─────────────────────────── */
+async function aiGenCards(subTitle, topicTitle, isSummary, allSubTitles){
+  var _k=getApiKey();
+  if(!_k){
+    toast('⚠️ Chưa có API Key! Vào Cài đặt → nhập key','err');
+    throw new Error('no key');
+  }
+
+  var prompt;
+  if(isSummary){
+    prompt='Bạn là chuyên gia tiếng Anh cho Software Engineer Việt Nam.\n'+
+      'Tạo 15 thẻ tổng hợp QUAN TRỌNG NHẤT cho topic lớn "'+topicTitle+'".\n'+
+      'Bao gồm cả từ đơn và phrases từ các tình huống: '+allSubTitles.join(', ')+'.\n';
+  } else {
+    prompt='Bạn là chuyên gia tiếng Anh cho Software Engineer Việt Nam.\n'+
+      'Tạo 15 thẻ từ vựng và phrases cho tình huống: "'+subTitle+'" trong context "'+topicTitle+'".\n';
+  }
+  prompt+='Yêu cầu: Chỉ trả về JSON array, không có bất kỳ text nào khác.\n'+
+    'Format mỗi item: {"word":"...","ipa":"...","meaning":"...","example":"..."}\n'+
+    'Ví dụ output hợp lệ:\n'+
+    '[{"word":"wrap up","ipa":"/ræp ʌp/","meaning":"hoàn thành, kết thúc","example":"Let\'s **wrap up** the meeting in 5 minutes."}]\n'+
+    'Bây giờ tạo 15 items cho chủ đề trên. Chỉ JSON, bắt đầu bằng [:';
+
+  console.log('[DevLingo] Calling API for:', subTitle||topicTitle);
+
+  var res, resText;
+  try {
+    res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': _k,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+  } catch(fetchErr) {
+    console.error('[DevLingo] Fetch failed (network/CORS):', fetchErr.message);
+    throw new Error('Lỗi kết nối mạng: ' + fetchErr.message);
+  }
+
+  console.log('[DevLingo] HTTP status:', res.status);
+
+  if(!res.ok) {
+    try {
+      var errData = await res.json();
+      console.error('[DevLingo] API error body:', JSON.stringify(errData));
+      var errMsg = (errData.error && errData.error.message) || ('HTTP ' + res.status);
+      if(res.status === 401) throw new Error('API Key không hợp lệ — vào Cài đặt kiểm tra lại');
+      if(res.status === 429) throw new Error('Quá nhiều request — đợi 30 giây rồi thử lại');
+      throw new Error('Lỗi API ' + res.status + ': ' + errMsg);
+    } catch(e) {
+      if(e.message.includes('API Key') || e.message.includes('Lỗi API') || e.message.includes('request'))
+        throw e;
+      throw new Error('HTTP ' + res.status + ' — kiểm tra API key');
+    }
+  }
+
+  var data;
+  try {
+    data = await res.json();
+  } catch(jsonErr) {
+    resText = await res.text().catch(()=>'');
+    console.error('[DevLingo] Response not JSON. Raw text:', resText.slice(0,500));
+    throw new Error('Response không phải JSON: ' + resText.slice(0,100));
+  }
+
+  console.log('[DevLingo] Response structure:', Object.keys(data).join(', '));
+
+  var raw = (data.content || []).map(b => b.text || '').join('').trim();
+  console.log('[DevLingo] Raw content (' + raw.length + ' chars):', raw.slice(0, 400));
+
+  if(!raw) {
+    console.error('[DevLingo] Full response:', JSON.stringify(data).slice(0,500));
+    throw new Error('AI trả về nội dung rỗng');
+  }
+
+  // Strip markdown fences thoroughly
+  var txt = raw
+    .replace(/^[\s\S]*?(\[)/,'[')  // remove everything before first [
+    .replace(/\][^[\]]*$/,']');     // remove everything after last ]
+
+  console.log('[DevLingo] Cleaned JSON (' + txt.length + ' chars):', txt.slice(0,200));
+
+  var items;
+  try {
+    items = JSON.parse(txt);
+  } catch(parseErr) {
+    console.error('[DevLingo] JSON parse error:', parseErr.message);
+    console.error('[DevLingo] Attempted to parse:', txt.slice(0,300));
+    throw new Error('Lỗi parse JSON — thử lại');
+  }
+
+  if(!Array.isArray(items) || !items.length) {
+    throw new Error('AI trả về dữ liệu rỗng — thử lại');
+  }
+
+  console.log('[DevLingo] Got', items.length, 'cards. First:', JSON.stringify(items[0]));
+  return items;
+}
+
+
+async function aiGymFill(card){
+  var _k=getApiKey();
+  if(!_k) throw new Error('no key');
+  var p='Tạo 1 câu fill-in-the-blank cho SE dùng từ/phrase "'+card.word+'" (nghĩa: '+card.meaning+').\n'+
+    'Trả về JSON thuần (không markdown): {"sentence":"câu với ___ thay thế từ cần điền","context":"mô tả tình huống ngắn tiếng Việt"}\n'+
+    'Bắt đầu bằng { và kết thúc bằng }';
+
+  var res=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':_k,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:p}]})
+  });
+
+  if(!res.ok) throw new Error('Gym API error: '+res.status);
+  var d=await res.json();
+  var raw=(d.content||[]).map(b=>b.text||'').join('').trim();
+  var txt=raw.replace(/```json/gi,'').replace(/```/g,'').trim();
+  var s=txt.indexOf('{'), e=txt.lastIndexOf('}');
+  if(s===-1||e<s) throw new Error('fill format error');
+  return JSON.parse(txt.slice(s,e+1));
+}
+
+
+/* ─────────────────────────── NAV ─────────────────────────── */
+var CUR='roadmap';
+function nav(p){
+  CUR=p;
+  // Desktop sidebar
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  var nb=document.getElementById('nb-'+p); if(nb)nb.classList.add('active');
+  // Mobile bottom nav
+  document.querySelectorAll('.mn-item').forEach(b=>b.classList.remove('active'));
+  var mn=document.getElementById('mn-'+p); if(mn)mn.classList.add('active');
+  if(p==='roadmap')renderRoadmap();
+  else if(p==='gym')renderGym();
+  else if(p==='settings')renderSettings();
+  updateDue();
+  // Scroll to top on mobile
+  var main=document.getElementById('main'); if(main)main.scrollTop=0;
+}
+function updateDue(){
+  var n=DB.due().length;
+  // desktop dot
+  var d=document.getElementById('due-dot'); if(d)d.style.display=n>0?'inline-block':'none';
+  // mobile dot
+  var md=document.getElementById('mn-due-dot'); if(md)md.style.display=n>0?'inline-block':'none';
+  // streak (desktop only)
+  var sn=document.getElementById('streak-num'); if(sn)sn.textContent=DB.streak;
+}
+
+/* ─────────────────────────── ROADMAP ─────────────────────────── */
+function renderRoadmap(){
+  var total=DB.all().length, dueN=DB.due().length;
+  var h='<div class="ph"><div class="ph-left"><div class="ph-title">Lộ trình học</div>'+
+    '<div class="ph-sub">'+total+' thẻ · <span style="color:var(--red)">'+dueN+' cần ôn hôm nay</span></div></div></div><div class="pb">';
+
+  DB.topics.forEach(t=>{
+    var tCards=DB.forTopic(t.id), tDue=tCards.filter(c=>c.due<=Date.now()).length;
+    h+='<div style="margin-bottom:28px;">';
+    h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">';
+    h+='<span style="font-size:22px;">'+t.icon+'</span><div>';
+    h+='<div style="font-size:16px;font-weight:700;">'+t.title+'</div>';
+    h+='<div style="font-size:12px;color:var(--text3);">'+t.desc+'</div></div>';
+    if(tDue>0)h+='<span class="badge b-red" style="margin-left:auto;">'+tDue+' cần ôn</span>';
+    h+='</div><div class="g3">';
+
+    t.subs.forEach(s=>{
+      var sc=DB.forSub(s.id), sd=sc.filter(c=>c.due<=Date.now()).length;
+      var done=sc.length>0, isSummary=s.id.endsWith('-all')||s.title.includes('Tổng kết');
+      h+='<div class="tc'+(done?' done':'')+'" onclick="openSub(\''+t.id+'\',\''+s.id+'\')"><div class="tc-icon">'+s.icon+'</div>';
+      h+='<div class="tc-title">'+s.title+'</div><div class="tc-desc">'+s.desc+'</div>';
+      h+='<div class="tc-footer">';
+      if(done){
+        h+='<span class="badge b-green">'+sc.length+' thẻ</span>';
+        if(sd>0)h+='<span class="badge b-red">'+sd+' due</span>';
+        else h+='<span class="badge b-gray">✓ học lại</span>';
+      }else{
+        h+='<span class="badge b-purple">'+(isSummary?'tổng kết':'AI generate')+'</span>';
+      }
+      h+='</div></div>';
+    });
+    h+='</div></div>';
+  });
+  h+='</div>';
+  document.getElementById('main').innerHTML=h;
+}
+
+/* ─────────────────────────── SUBTOPIC VIEW ─────────────────────────── */
+function openSub(tid,sid){
+  var t=DB.topics.find(x=>x.id===tid), s=t.subs.find(x=>x.id===sid);
+  var cards=DB.forSub(sid), due=cards.filter(c=>c.due<=Date.now());
+  var isSummary=sid.endsWith('-all')||s.title.includes('Tổng kết');
+
+  var h='<div class="ph"><div class="ph-left">'+
+    '<button class="btn btn-ghost btn-sm" onclick="nav(\'roadmap\')" style="margin-bottom:10px;">← Lộ trình</button>'+
+    '<div class="ph-title">'+s.icon+' '+s.title+'</div>'+
+    '<div class="ph-sub">'+t.title+' · '+cards.length+' thẻ · '+due.length+' cần ôn</div></div>'+
+    '<div class="ph-actions">';
+
+  if(cards.length===0){
+    h+='<button class="btn btn-primary" id="gen-btn" onclick="doGenerate(\''+tid+'\',\''+sid+'\')">⚡ Generate với AI</button>';
+  }else{
+    h+='<button class="btn btn-ghost btn-sm" onclick="doGenerate(\''+tid+'\',\''+sid+'\')">↻ Tạo lại</button>';
+    if(due.length>0)h+='<button class="btn btn-primary btn-sm" onclick="startReview(\''+tid+'\',\''+sid+'\')">Ôn tập ('+due.length+')</button>';
+    else h+='<button class="btn btn-ghost btn-sm" onclick="startReview(\''+tid+'\',\''+sid+'\')">Học lại tất cả</button>';
+  }
+  h+='</div></div><div class="pb">';
+
+  if(cards.length===0){
+    h+='<div class="empty"><div class="empty-ico">🤖</div>'+
+      '<div style="font-size:14px;margin-bottom:16px;">Chưa có thẻ. Nhấn "Generate với AI" để tạo 15 thẻ phù hợp tình huống này.</div></div>';
+  }else{
+    var learned=cards.filter(c=>c.reps>0).length;
+    h+='<div class="g3" style="margin-bottom:24px;">'+
+      '<div class="stat-card"><div class="stat-num">'+cards.length+'</div><div class="stat-lbl">Tổng thẻ</div></div>'+
+      '<div class="stat-card"><div class="stat-num" style="color:var(--green)">'+learned+'</div><div class="stat-lbl">Đã học</div></div>'+
+      '<div class="stat-card"><div class="stat-num" style="color:var(--red)">'+due.length+'</div><div class="stat-lbl">Cần ôn hôm nay</div></div>'+
+      '</div>';
+
+    h+='<div style="display:flex;flex-direction:column;gap:8px;">';
+    cards.forEach(c=>{
+      var isDue=c.due<=Date.now(), dLeft=daysUntil(c.due);
+      h+='<div class="card-sm" style="display:flex;align-items:center;gap:14px;">'+
+        '<div style="flex:1;">'+
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">'+
+        '<span style="font-size:14px;font-weight:700;">'+c.word+'</span>'+
+        '<span style="font-family:var(--mono);font-size:12px;color:var(--accent);">'+c.ipa+'</span></div>'+
+        '<div style="font-size:12px;color:var(--text2);">'+c.meaning+'</div></div>'+
+        '<div>';
+      if(isDue)h+='<span class="badge b-red">ôn ngay</span>';
+      else if(!c.reps)h+='<span class="badge b-gray">chưa học</span>';
+      else h+='<span class="badge b-blue">+'+dLeft+' ngày</span>';
+      h+='</div></div>';
+    });
+    h+='</div>';
+  }
+  h+='</div>';
+  document.getElementById('main').innerHTML=h;
+}
+
+/* ─────────────────────────── GENERATE ─────────────────────────── */
+async function doGenerate(tid,sid){
+  if(!requireApiKey()) return;
+  var t=DB.topics.find(x=>x.id===tid), s=t.subs.find(x=>x.id===sid);
+  var btn=document.getElementById('gen-btn');
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> Đang tạo...';}
+
+  // Remove old
+  Object.keys(DB.cards).forEach(k=>{ if(DB.cards[k].sid===sid)delete DB.cards[k]; });
+
+  var isSummary=sid.endsWith('-all')||s.title.includes('Tổng kết');
+  var allSubTitles=t.subs.filter(x=>!x.id.endsWith('-all')).map(x=>x.title);
+
+  try{
+    var items=await aiGenCards(s.title,t.title,isSummary,allSubTitles);
+    var now=Date.now();
+    items.forEach((item,i)=>{
+      var id=sid+'_'+i+'_'+now;
+      DB.cards[id]={id,tid,sid,word:item.word||'',ipa:item.ipa||'',meaning:item.meaning||'',
+        example:item.example||'',ef:2.5,iv:1,reps:0,due:now};
+    });
+    DB.save();
+    toast('Đã tạo '+items.length+' thẻ cho "'+s.title+'"','ok');
+    openSub(tid,sid);
+  }catch(e){
+    if(e.message!=='no key'){
+      toast(e.message||'Lỗi không xác định — thử lại','err');
+    }
+    console.error('[DevLingo]',e);
+    if(btn){btn.disabled=false;btn.innerHTML='⚡ Generate với AI';}
+  }
+}
+
+/* ─────────────────────────── REVIEW ─────────────────────────── */
+var RS={cards:[],idx:0,shown:false,stats:{},tid:'',sid:''};
+
+function startReview(tid,sid){
+  var cards=DB.forSub(sid);
+  var due=cards.filter(c=>c.due<=Date.now());
+  var queue=(due.length>0?due:cards).sort(()=>Math.random()-.5);
+  RS={cards:queue,idx:0,shown:false,stats:{again:0,hard:0,good:0,easy:0},tid,sid};
+  renderReview();
+}
+
+function renderReview(){
+  if(RS.idx>=RS.cards.length){renderReviewDone();return;}
+  var c=RS.cards[RS.idx];
+  RS.shown=false;
+  var cfg=DB.settings;
+  var front=cfg.front||['word'], back=cfg.back||['ipa','meaning','example'];
+
+  var fh=''; // front face
+  if(front.includes('word'))fh+='<div class="fc-word">'+c.word+'</div>';
+  if(front.includes('ipa'))fh+='<div class="fc-ipa">'+c.ipa+'</div>';
+  if(front.includes('meaning'))fh+='<div class="fc-vi">'+c.meaning+'</div>';
+  fh+='<div class="fc-hint">nhấn để lật xem mặt sau</div>';
+
+  var bh=''; // back face
+  if(back.includes('word'))bh+='<div class="fc-word">'+c.word+'</div>';
+  if(back.includes('ipa'))bh+='<div class="fc-ipa">'+c.ipa+'</div>';
+  if(back.includes('meaning'))bh+='<div class="fc-vi">'+c.meaning+'</div>';
+  if(back.includes('example')){
+    var ex=c.example.replace(/\*\*([^*]+)\*\*/g,'<strong style="color:var(--accent)">$1</strong>');
+    bh+='<div class="fc-ex">'+ex+'</div>';
+  }
+
+  var prog=Math.round(RS.idx/RS.cards.length*100);
+  var h='<div class="ph" style="align-items:center;">'+
+    '<button class="btn btn-ghost btn-sm" onclick="openSub(\''+RS.tid+'\',\''+RS.sid+'\')">← Dừng</button>'+
+    '<div style="font-size:13px;color:var(--text2);">'+(RS.idx+1)+'/'+RS.cards.length+'</div></div>'+
+    '<div class="pb">'+
+    '<div style="margin-bottom:14px;"><div class="prog-track"><div class="prog-fill pf-green" style="width:'+prog+'%"></div></div></div>'+
+    '<div class="fc-wrap"><div class="fc" id="rfc" onclick="showBack()">'+
+    '<div class="fc-face fc-front">'+fh+'</div>'+
+    '<div class="fc-face fc-back">'+bh+'</div></div></div>'+
+    '<div id="rate-area" style="display:none;">'+
+    '<div style="font-size:12px;color:var(--text2);text-align:center;margin-bottom:10px;">Bạn nhớ từ này như thế nào?</div>'+
+    '<div class="rate-row">'+
+    rateBtn(0,'Lại',c)+rateBtn(1,'Khó',c)+rateBtn(2,'Tốt',c)+rateBtn(3,'Dễ',c)+
+    '</div></div></div>';
+  document.getElementById('main').innerHTML=h;
+}
+
+function rateBtn(r,lbl,c){
+  var cls=['r-again','r-hard','r-good','r-easy'][r];
+  var d=nextDays(c,r);
+  return '<div><div class="rate-btn '+cls+'" onclick="doRate('+r+')">'+lbl+'</div><div class="rate-day">+'+d+' ngày</div></div>';
+}
+
+function showBack(){
+  if(RS.shown)return; RS.shown=true;
+  var fc=document.getElementById('rfc'); if(fc)fc.classList.add('flipped');
+  var ra=document.getElementById('rate-area'); if(ra)ra.style.display='block';
+}
+
+function doRate(r){
+  var lbls=['again','hard','good','easy']; RS.stats[lbls[r]]++;
+  rateCard(RS.cards[RS.idx],r);
+  updateStreak(); RS.idx++; renderReview();
+}
+
+function updateStreak(){
+  var today=new Date().toDateString();
+  if(DB.lastStudy!==today){
+    var yest=new Date(Date.now()-86400000).toDateString();
+    DB.streak=DB.lastStudy===yest?DB.streak+1:1;
+    DB.lastStudy=today; DB.save();
+  }
+  document.getElementById('streak-num').textContent=DB.streak;
+}
+
+function renderReviewDone(){
+  var s=RS.stats, total=s.again+s.hard+s.good+s.easy;
+  var pct=total>0?Math.round((s.good+s.easy)/total*100):0;
+  var h='<div class="ph"><div class="ph-title">Hoàn thành! 🎉</div></div>'+
+    '<div class="pb"><div class="result-wrap">'+
+    '<div class="result-big">'+pct+'%</div>'+
+    '<div class="result-sub">tỉ lệ nhớ phiên này</div>'+
+    '<div class="result-stats">'+
+    '<div class="rs-item"><div class="rs-num" style="color:var(--green)">'+s.easy+'</div><div class="rs-lbl">Dễ</div></div>'+
+    '<div class="rs-item"><div class="rs-num" style="color:var(--blue)">'+s.good+'</div><div class="rs-lbl">Tốt</div></div>'+
+    '<div class="rs-item"><div class="rs-num" style="color:var(--yellow)">'+s.hard+'</div><div class="rs-lbl">Khó</div></div>'+
+    '<div class="rs-item"><div class="rs-num" style="color:var(--red)">'+s.again+'</div><div class="rs-lbl">Lại</div></div>'+
+    '</div>'+
+    '<div style="display:flex;gap:10px;justify-content:center;">'+
+    '<button class="btn btn-primary" onclick="nav(\'gym\')">Gym luyện thêm</button>'+
+    '<button class="btn btn-ghost" onclick="openSub(\''+RS.tid+'\',\''+RS.sid+'\')">Xem thẻ</button>'+
+    '<button class="btn btn-ghost" onclick="nav(\'roadmap\')">Lộ trình</button>'+
+    '</div></div></div>';
+  document.getElementById('main').innerHTML=h;
+}
+
+/* ─────────────────────────── GYM ─────────────────────────── */
+var GS={queue:[],idx:0,mode:'',card:null,stats:{correct:0,wrong:0}};
+
+function renderGym(){
+  var due=DB.due(), all=DB.all();
+  if(!all.length){
+    document.getElementById('main').innerHTML=
+      '<div class="ph"><div class="ph-title">Gym 💪</div></div>'+
+      '<div class="pb"><div class="empty"><div class="empty-ico">🏋️</div><div style="font-size:14px;margin-bottom:16px;">Chưa có thẻ. Vào Lộ trình → generate thẻ trước!</div><button class="btn btn-primary" onclick="nav(\'roadmap\')">Đi tới Lộ trình</button></div></div>';
+    return;
+  }
+
+  var gymCard=(label,mode,pool,count,badge,bclass)=>
+    '<div class="card" style="cursor:pointer;" onclick="startGym(\''+mode+'\',\''+pool+'\')">'+
+    '<div style="font-size:22px;margin-bottom:8px;">'+(mode==='fill'?'📝':'✍️')+'</div>'+
+    '<div style="font-weight:700;margin-bottom:4px;">'+label+'</div>'+
+    '<div style="font-size:12px;color:var(--text2);margin-bottom:12px;">'+(mode==='fill'?'Điền từ vào tình huống thực tế':'Tự viết câu — active recall mạnh nhất')+'</div>'+
+    '<span class="badge '+bclass+'">'+count+' thẻ</span></div>';
+
+  var h='<div class="ph"><div class="ph-left"><div class="ph-title">Gym 💪</div>'+
+    '<div class="ph-sub">'+due.length+' cần ôn · '+all.length+' tổng thẻ</div></div></div><div class="pb">';
+
+  if(due.length>0){
+    h+='<div style="margin-bottom:24px;"><div class="slbl">📅 Cần ôn hôm nay ('+due.length+')</div>'+
+      '<div class="g2">'+gymCard('Fill-in-Context','fill','due',due.length,'b-red','b-red')+gymCard('Produce','produce','due',due.length,'b-red','b-red')+'</div></div>';
+  }
+  h+='<div><div class="slbl">🎯 Luyện tất cả</div><div class="g2">'+
+    gymCard('Fill-in-Context','fill','all',all.length,'b-purple','b-purple')+
+    gymCard('Produce','produce','all',all.length,'b-purple','b-purple')+
+    '</div></div></div>';
+  document.getElementById('main').innerHTML=h;
+}
+
+function startGym(mode,pool){
+  var cards=pool==='due'?DB.due():DB.all();
+  cards=cards.sort(()=>Math.random()-.5).slice(0,20);
+  GS={queue:cards,idx:0,mode,card:null,stats:{correct:0,wrong:0}};
+  renderGymCard();
+}
+
+async function renderGymCard(){
+  if(GS.idx>=GS.queue.length){renderGymDone();return;}
+  GS.card=GS.queue[GS.idx];
+  var c=GS.card;
+  var prog=Math.round(GS.idx/GS.queue.length*100);
+  var header='<div class="ph" style="align-items:center;">'+
+    '<button class="btn btn-ghost btn-sm" onclick="renderGym()">← Dừng</button>'+
+    '<div style="font-size:13px;color:var(--text2);">'+(GS.idx+1)+'/'+GS.queue.length+
+    ' <span style="color:var(--green)">✓'+GS.stats.correct+'</span> <span style="color:var(--red)">✗'+GS.stats.wrong+'</span></div></div>';
+  var pb='<div class="pb"><div style="margin-bottom:16px;"><div class="prog-track"><div class="prog-fill pf-accent" style="width:'+prog+'%"></div></div></div>';
+
+  if(GS.mode==='fill'){
+    document.getElementById('main').innerHTML=header+pb+'<div class="loading-row"><div class="spin"></div>AI đang tạo câu điền từ...</div></div>';
+    try{
+      var fd=await aiGymFill(c);
+      renderGymFill(c,fd,header,prog);
+    }catch(e){
+      renderGymFill(c,{sentence:'I need to '+c.word+' this before EOD.',context:'Tình huống làm việc hàng ngày'},header,prog);
+    }
+  }else{
+    document.getElementById('main').innerHTML=header+pb+
+      '<div class="card" style="margin-bottom:16px;">'+
+      '<div style="font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:6px;">TỪ CẦN DÙNG</div>'+
+      '<div style="font-size:26px;font-weight:700;margin-bottom:6px;">'+c.word+'</div>'+
+      '<div style="font-family:var(--mono);font-size:13px;color:var(--accent);margin-bottom:4px;">'+c.ipa+'</div>'+
+      '<div style="font-size:14px;color:var(--text2);">'+c.meaning+'</div></div>'+
+      '<div class="field"><label class="lbl">Viết 1–2 câu dùng từ này trong tình huống SE:</label>'+
+      '<textarea class="inp" id="pro-inp" placeholder="Ví dụ: I need to '+c.word+'..." oninput="checkProduceWord()"></textarea></div>'+
+      '<div id="pro-chip" style="margin-bottom:12px;"></div>'+
+      '<div id="pro-fb" style="margin-bottom:14px;"></div>'+
+      '<div style="display:flex;gap:10px;">'+
+      '<button class="btn btn-primary" onclick="submitProduce()">Kiểm tra</button>'+
+      '<button class="btn btn-ghost" onclick="showProduceSample()">Xem câu mẫu</button>'+
+      '</div></div>';
+  }
+}
+
+function renderGymFill(c,fd,header,prog){
+  var sentHTML=fd.sentence.replace('___','<input class="blank" id="fill-blank" placeholder="'+c.word+'" onkeydown="if(event.key===\'Enter\')checkFill()"/>');
+  document.getElementById('main').innerHTML=header+
+    '<div class="pb">'+
+    '<div style="margin-bottom:14px;"><div class="prog-track"><div class="prog-fill pf-accent" style="width:'+prog+'%"></div></div></div>'+
+    '<div class="fc-scene"><strong>'+fd.context+'</strong></div>'+
+    '<div class="field"><label class="lbl">Điền từ đúng vào chỗ trống:</label>'+
+    '<div class="gym-sentence">'+sentHTML+'</div></div>'+
+    '<div id="fill-fb" style="margin-bottom:14px;"></div>'+
+    '<div style="display:flex;gap:10px;">'+
+    '<button class="btn btn-primary" onclick="checkFill()">Kiểm tra</button>'+
+    '<button class="btn btn-ghost" onclick="revealFill()">Hiển thị đáp án</button>'+
+    '</div></div>';
+  setTimeout(()=>{ var b=document.getElementById('fill-blank'); if(b)b.focus(); },100);
+}
+
+function checkFill(){
+  var inp=document.getElementById('fill-blank'); if(!inp)return;
+  var val=inp.value.trim().toLowerCase(), c=GS.card;
+  var ok=val===c.word.toLowerCase()||c.word.toLowerCase().split(' ').some(w=>val===w);
+  inp.className='blank '+(ok?'ok':'err'); inp.disabled=true;
+  if(ok){GS.stats.correct++;}else{GS.stats.wrong++;}
+  var ex=c.example.replace(/\*\*([^*]+)\*\*/g,'<strong style="color:var(--accent)">$1</strong>');
+  document.getElementById('fill-fb').innerHTML=
+    (ok?'<div class="fb-good"><strong>Chính xác! 🎉</strong> "'+c.word+'" — '+c.meaning+'</div>':
+        '<div class="fb-bad"><strong>Từ đúng:</strong> '+c.word+' — '+c.meaning+'</div>')+
+    '<div class="fb-info" style="margin-top:8px;"><strong style="color:var(--text2);">Câu mẫu:</strong> '+ex+'</div>'+
+    '<div style="margin-top:10px;"><button class="btn btn-primary btn-sm" onclick="gymNext('+(ok?2:0)+')">Tiếp theo →</button></div>';
+}
+
+function revealFill(){
+  var inp=document.getElementById('fill-blank'); if(!inp)return;
+  inp.value=GS.card.word; inp.className='blank ok'; inp.disabled=true;
+  GS.stats.wrong++;
+  var ex=GS.card.example.replace(/\*\*([^*]+)\*\*/g,'<strong style="color:var(--accent)">$1</strong>');
+  document.getElementById('fill-fb').innerHTML=
+    '<div class="fb-info"><strong>Đáp án:</strong> '+GS.card.word+' — '+GS.card.meaning+'</div>'+
+    '<div class="fb-info" style="margin-top:8px;">'+ex+'</div>'+
+    '<div style="margin-top:10px;"><button class="btn btn-ghost btn-sm" onclick="gymNext(1)">Tiếp theo →</button></div>';
+}
+
+function checkProduceWord(){
+  var inp=document.getElementById('pro-inp'), c=GS.card; if(!inp)return;
+  var has=inp.value.toLowerCase().includes(c.word.toLowerCase());
+  document.getElementById('pro-chip').innerHTML=
+    '<span style="font-size:12px;color:var(--text2);">Từ cần dùng: </span>'+
+    '<span style="font-family:var(--mono);font-size:12px;padding:2px 8px;border-radius:4px;background:'+(has?'rgba(34,197,94,.15)':'rgba(239,68,68,.1)')+';color:'+(has?'var(--green)':'var(--red)')+';">'+c.word+(has?' ✓':' ✗')+'</span>';
+}
+
+function submitProduce(){
+  var inp=document.getElementById('pro-inp'), c=GS.card;
+  if(!inp||!inp.value.trim()){toast('Hãy viết câu trước!','err');return;}
+  var has=inp.value.toLowerCase().includes(c.word.toLowerCase());
+  var ex=c.example.replace(/\*\*([^*]+)\*\*/g,'<strong style="color:var(--accent)">$1</strong>');
+  if(has){GS.stats.correct++;}else{GS.stats.wrong++;}
+  document.getElementById('pro-fb').innerHTML=
+    (has?'<div class="fb-good" style="margin-bottom:10px;"><strong>Tốt lắm! ✓</strong> Đã dùng "'+c.word+'" đúng ngữ cảnh.</div>':
+         '<div class="fb-bad" style="margin-bottom:10px;"><strong>Chưa có từ "'+c.word+'" trong câu.</strong></div>')+
+    '<div class="fb-info"><strong style="color:var(--text2);">Câu mẫu:</strong> '+ex+'</div>'+
+    '<div style="margin-top:10px;"><button class="btn btn-primary btn-sm" onclick="gymNext('+(has?2:0)+')">Tiếp theo →</button></div>';
+}
+
+function showProduceSample(){
+  var c=GS.card;
+  var ex=c.example.replace(/\*\*([^*]+)\*\*/g,'<strong style="color:var(--accent)">$1</strong>');
+  document.getElementById('pro-fb').innerHTML='<div class="fb-info"><strong style="color:var(--text2);">Câu mẫu:</strong> '+ex+'</div>';
+  GS.stats.wrong++;
+  setTimeout(()=>{ document.getElementById('pro-fb').innerHTML+='<div style="margin-top:10px;"><button class="btn btn-ghost btn-sm" onclick="gymNext(0)">Tiếp theo →</button></div>'; },200);
+}
+
+function gymNext(r){ rateCard(GS.card,r); GS.idx++; renderGymCard(); }
+
+function renderGymDone(){
+  var s=GS.stats, total=s.correct+s.wrong, pct=total>0?Math.round(s.correct/total*100):0;
+  document.getElementById('main').innerHTML=
+    '<div class="ph"><div class="ph-title">Gym xong! 💪</div></div>'+
+    '<div class="pb"><div class="result-wrap">'+
+    '<div class="result-big">'+pct+'%</div>'+
+    '<div class="result-sub">tỉ lệ chính xác</div>'+
+    '<div class="result-stats">'+
+    '<div class="rs-item"><div class="rs-num" style="color:var(--green)">'+s.correct+'</div><div class="rs-lbl">Đúng</div></div>'+
+    '<div class="rs-item"><div class="rs-num" style="color:var(--red)">'+s.wrong+'</div><div class="rs-lbl">Sai</div></div>'+
+    '<div class="rs-item"><div class="rs-num">'+total+'</div><div class="rs-lbl">Tổng</div></div>'+
+    '</div>'+
+    '<div style="display:flex;gap:10px;justify-content:center;">'+
+    '<button class="btn btn-primary" onclick="renderGym()">Gym lại</button>'+
+    '<button class="btn btn-ghost" onclick="nav(\'roadmap\')">Lộ trình</button>'+
+    '</div></div></div>';
+}
+
+/* ─────────────────────────── SETTINGS ─────────────────────────── */
+function renderSettings(){
+  var cfg=DB.settings;
+  var front=cfg.front||['word'], back=cfg.back||['ipa','meaning','example'];
+  var FIELDS=[{id:'word',lbl:'Từ tiếng Anh'},{id:'ipa',lbl:'Phiên âm IPA'},{id:'meaning',lbl:'Nghĩa tiếng Việt'},{id:'example',lbl:'Câu ví dụ'}];
+
+  var faceCheck=(side,f)=>'<label class="face-field"><input type="checkbox" '+(side==='front'?front:back).includes(f.id)?'checked':''+'onchange="toggleFace(\''+side+'\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>';
+
+  var h='<div class="ph"><div class="ph-left"><div class="ph-title">Cài đặt</div>'+
+    '<div class="ph-sub">Quản lý lộ trình và cấu hình thẻ học</div></div></div><div class="pb">';
+
+  // API KEY
+  var keyVal=DB.settings.apiKey||'';
+  var keyMasked=keyVal?keyVal.slice(0,12)+'••••••••••••••••••••'+keyVal.slice(-4):'';
+  h+='<div style="margin-bottom:28px;"><div class="slbl">Anthropic API Key</div>'+
+    '<div style="background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:16px 18px;">'+
+    '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'+
+    '<div style="flex:1;min-width:200px;">'+
+    (keyVal
+      ? '<div style="font-family:var(--mono);font-size:13px;color:var(--green);margin-bottom:4px;">✓ Đã cấu hình</div>'+
+        '<div style="font-family:var(--mono);font-size:12px;color:var(--text3);">'+keyMasked+'</div>'
+      : '<div style="font-size:13px;color:var(--red);margin-bottom:4px;">⚠ Chưa có API Key — chức năng Generate với AI chưa hoạt động</div>'+
+        '<div style="font-size:12px;color:var(--text3);">Lấy key tại console.anthropic.com → API Keys</div>'
+    )+
+    '</div>'+
+    '<button class="btn '+(keyVal?'btn-ghost':'btn-primary')+' btn-sm" onclick="modalApiKey()">'+
+    (keyVal?'Đổi key':'Nhập API Key')+'</button>'+
+    (keyVal?'<button class="btn btn-danger btn-sm" onclick="removeApiKey()">Xóa key</button>':'')+
+    '</div></div></div>';
+
+  // CARD CONFIG
+  h+='<div style="margin-bottom:28px;"><div class="slbl">Cấu hình thẻ học</div>'+
+    '<div class="face-box"><div class="face-ttl">Mặt trước (câu hỏi)</div><div class="face-fields">';
+  FIELDS.forEach(f=>{ h+='<label class="face-field"><input type="checkbox" '+(front.includes(f.id)?'checked':'')+' onchange="toggleFace(\'front\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>'; });
+  h+='</div></div><div class="face-box"><div class="face-ttl">Mặt sau (đáp án)</div><div class="face-fields">';
+  FIELDS.forEach(f=>{ h+='<label class="face-field"><input type="checkbox" '+(back.includes(f.id)?'checked':'')+' onchange="toggleFace(\'back\',\''+f.id+'\',this.checked)"/> <span>'+f.lbl+'</span></label>'; });
+  h+='</div></div></div>';
+
+  // TOPICS CONFIG
+  h+='<div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">'+
+    '<div class="slbl" style="margin-bottom:0;">Cấu hình lộ trình học</div>'+
+    '<button class="btn btn-primary btn-sm" onclick="modalAddTopic()">+ Thêm topic lớn</button></div>';
+
+  DB.topics.forEach((t,ti)=>{
+    h+='<div class="tg"><div class="tg-header">'+
+      '<span class="tg-icon">'+t.icon+'</span>'+
+      '<div><div class="tg-title">'+t.title+'</div><div style="font-size:11px;color:var(--text3);">'+t.desc+'</div></div>'+
+      '<button class="btn btn-ghost btn-sm" onclick="modalEditTopic('+ti+')">Sửa</button>'+
+      '<button class="btn btn-danger btn-sm" onclick="modalDeleteTopic('+ti+')">Xóa</button>'+
+      '</div><div class="tg-body">';
+
+    t.subs.forEach((s,si)=>{
+      var sc=DB.forSub(s.id).length;
+      h+='<div class="sti">'+
+        '<span class="sti-icon">'+s.icon+'</span>'+
+        '<div class="sti-content">'+
+        '<div class="sti-title">'+s.title+'</div>'+
+        '<div class="sti-desc">'+s.desc+' · <span style="color:var(--accent)">'+sc+' thẻ</span></div></div>'+
+        '<div class="sti-actions">'+
+        '<button class="btn btn-ghost btn-sm" style="font-size:11px;" onclick="modalEditSub('+ti+','+si+')">Sửa</button>'+
+        '<button class="btn btn-danger btn-sm" style="font-size:11px;" onclick="modalDeleteSub('+ti+','+si+')">Xóa</button>'+
+        '</div></div>';
+    });
+
+    h+='<button class="add-sub-btn" onclick="modalAddSub('+ti+')">+ Thêm tình huống nhỏ</button>';
+    h+='</div></div>';
+  });
+  h+='</div>';
+
+  // DATA
+  // API KEY SECTION
+  var key=DB.settings.apiKey||'';
+  var keyMasked=key?key.substring(0,10)+'••••••••••••••••••••':'' ;
+  h+='<div class="div"></div><div class="slbl">Anthropic API Key</div>'+
+    '<div style="background:var(--bg3);border-radius:var(--r);padding:16px 20px;margin-bottom:20px;">'+
+    '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">'+
+    '<div style="flex:1;min-width:0;">'+
+    (key
+      ? '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">'+
+        '<span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>'+
+        '<span style="font-size:13px;font-weight:600;color:var(--green);">Đã có API Key</span></div>'+
+        '<div style="font-family:var(--mono);font-size:12px;color:var(--text3);">'+keyMasked+'</div>'
+      : '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">'+
+        '<span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>'+
+        '<span style="font-size:13px;font-weight:600;color:var(--red);">Chưa có API Key — Generate với AI sẽ không hoạt động</span></div>'+
+        '<div style="font-size:12px;color:var(--text3);">Lấy key tại <span style="color:var(--accent);">console.anthropic.com</span> → API Keys</div>'
+    )+
+    '</div>'+
+    '<div style="display:flex;gap:8px;margin-top:12px;">'+
+    '<input class="inp" id="key-inp" type="password" placeholder="sk-ant-api03-..." '+
+    'style="flex:1;font-family:var(--mono);font-size:13px;" value="'+(key||'')+'"/>'+
+    '<button class="btn btn-primary btn-sm" onclick="doSaveKey()">Lưu key</button>'+
+    (key?'<button class="btn btn-danger btn-sm" onclick="doRemoveKey()">Xóa</button>':'')+
+    '</div>'+
+    '<div style="font-size:11px;color:var(--text3);margin-top:8px;">🔒 Key lưu trong localStorage, chỉ gửi tới Anthropic API.</div>'+
+    '</div></div>'+
+
+    '<div class="div"></div><div class="slbl">Bảo mật</div>'+
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">'+
+    '<button class="btn btn-ghost" onclick="changePw()">🔑 Đổi mật khẩu</button>'+
+    '<button class="btn btn-danger" onclick="logout()">Đăng xuất</button>'+
+    '</div>'+
+    '<div class="slbl">Dữ liệu</div>'+
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;">'+
+    '<button class="btn btn-ghost" onclick="exportData()">Export JSON</button>'+
+    '<button class="btn btn-danger" onclick="modalClear()">Xóa tất cả thẻ</button></div>';
+
+  h+='</div>';
+  document.getElementById('main').innerHTML=h;
+}
+
+function toggleFace(side,fid,checked){
+  var arr=side==='front'?(DB.settings.front||[]):(DB.settings.back||[]);
+  if(checked){if(!arr.includes(fid))arr.push(fid);}else{arr=arr.filter(f=>f!==fid);}
+  if(side==='front')DB.settings.front=arr; else DB.settings.back=arr;
+  DB.save(); toast('Đã lưu','ok');
+}
+
+/* ─────────────────────────── SETTINGS MODALS ─────────────────────────── */
+function modalAddTopic(){
+  showModal('Thêm topic lớn',
+    '<div class="field"><label class="lbl">Tên topic</label><input class="inp" id="m-title" placeholder="VD: Onboarding thành viên mới"/></div>'+
+    '<div class="field"><label class="lbl">Mô tả</label><input class="inp" id="m-desc" placeholder="VD: Hướng dẫn và đào tạo người mới"/></div>'+
+    '<div class="field"><label class="lbl">Icon (emoji)</label><input class="inp" id="m-icon" placeholder="🚀" style="width:80px;"/></div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Thêm',c:'btn-primary',f:'doAddTopic()'}]
+  );
+}
+
+function doAddTopic(){
+  var title=document.getElementById('m-title').value.trim();
+  var desc=document.getElementById('m-desc').value.trim();
+  var icon=document.getElementById('m-icon').value.trim()||'📌';
+  if(!title){toast('Nhập tên topic!','err');return;}
+  var id='t'+Date.now();
+  DB.topics.push({id,title,icon,desc,subs:[
+    {id:id+'-sum',title:'Tổng kết — '+title,icon:'🏆',desc:'Tổng hợp tất cả vocabulary và phrases của topic này'}
+  ]});
+  DB.save(); closeModal(); renderSettings(); toast('Đã thêm "'+title+'"','ok');
+}
+
+function modalEditTopic(ti){
+  var t=DB.topics[ti];
+  showModal('Sửa topic',
+    '<div class="field"><label class="lbl">Tên</label><input class="inp" id="m-title" value="'+t.title+'"/></div>'+
+    '<div class="field"><label class="lbl">Mô tả</label><input class="inp" id="m-desc" value="'+t.desc+'"/></div>'+
+    '<div class="field"><label class="lbl">Icon</label><input class="inp" id="m-icon" value="'+t.icon+'" style="width:80px;"/></div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Lưu',c:'btn-primary',f:'doEditTopic('+ti+')'}]
+  );
+}
+function doEditTopic(ti){
+  DB.topics[ti].title=document.getElementById('m-title').value.trim()||DB.topics[ti].title;
+  DB.topics[ti].desc=document.getElementById('m-desc').value.trim()||DB.topics[ti].desc;
+  DB.topics[ti].icon=document.getElementById('m-icon').value.trim()||DB.topics[ti].icon;
+  DB.save(); closeModal(); renderSettings(); toast('Đã lưu','ok');
+}
+
+function modalDeleteTopic(ti){
+  var t=DB.topics[ti];
+  showModal('Xóa topic',
+    '<div style="color:var(--text2);">Xóa <strong style="color:var(--text)">"'+t.title+'"</strong> và <strong style="color:var(--red)">tất cả '+DB.forTopic(t.id).length+' thẻ</strong> liên quan? Không thể hoàn tác.</div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Xóa topic',c:'btn-danger',f:'doDeleteTopic('+ti+')'}]
+  );
+}
+function doDeleteTopic(ti){
+  var t=DB.topics[ti];
+  t.subs.forEach(s=>{ Object.keys(DB.cards).forEach(k=>{ if(DB.cards[k].sid===s.id)delete DB.cards[k]; }); });
+  DB.topics.splice(ti,1); DB.save(); closeModal(); renderSettings(); toast('Đã xóa','ok');
+}
+
+function modalAddSub(ti){
+  var t=DB.topics[ti];
+  showModal('Thêm tình huống vào "'+t.title+'"',
+    '<div class="field"><label class="lbl">Tên tình huống</label><input class="inp" id="m-stitle" placeholder="VD: Báo cáo kết quả sprint"/></div>'+
+    '<div class="field"><label class="lbl">Mô tả ngắn</label><input class="inp" id="m-sdesc" placeholder="VD: Tổng kết sprint cho stakeholders"/></div>'+
+    '<div class="field"><label class="lbl">Icon (emoji)</label><input class="inp" id="m-sicon" placeholder="📊" style="width:80px;"/></div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Thêm',c:'btn-primary',f:'doAddSub('+ti+')'}]
+  );
+}
+function doAddSub(ti){
+  var title=document.getElementById('m-stitle').value.trim();
+  var desc=document.getElementById('m-sdesc').value.trim();
+  var icon=document.getElementById('m-sicon').value.trim()||'📌';
+  if(!title){toast('Nhập tên tình huống!','err');return;}
+  var id=DB.topics[ti].id+'-s'+Date.now();
+  DB.topics[ti].subs.push({id,title,icon,desc});
+  DB.save(); closeModal(); renderSettings(); toast('Đã thêm "'+title+'"','ok');
+}
+
+function modalEditSub(ti,si){
+  var s=DB.topics[ti].subs[si];
+  showModal('Sửa tình huống',
+    '<div class="field"><label class="lbl">Tên</label><input class="inp" id="m-stitle" value="'+s.title+'"/></div>'+
+    '<div class="field"><label class="lbl">Mô tả</label><input class="inp" id="m-sdesc" value="'+s.desc+'"/></div>'+
+    '<div class="field"><label class="lbl">Icon</label><input class="inp" id="m-sicon" value="'+s.icon+'" style="width:80px;"/></div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Lưu',c:'btn-primary',f:'doEditSub('+ti+','+si+')'}]
+  );
+}
+function doEditSub(ti,si){
+  DB.topics[ti].subs[si].title=document.getElementById('m-stitle').value.trim()||DB.topics[ti].subs[si].title;
+  DB.topics[ti].subs[si].desc=document.getElementById('m-sdesc').value.trim()||DB.topics[ti].subs[si].desc;
+  DB.topics[ti].subs[si].icon=document.getElementById('m-sicon').value.trim()||DB.topics[ti].subs[si].icon;
+  DB.save(); closeModal(); renderSettings(); toast('Đã lưu','ok');
+}
+
+function modalDeleteSub(ti,si){
+  var s=DB.topics[ti].subs[si], cnt=DB.forSub(s.id).length;
+  showModal('Xóa tình huống',
+    '<div style="color:var(--text2);">Xóa <strong style="color:var(--text)">"'+s.title+'"</strong>'+
+    (cnt>0?' và <strong style="color:var(--red)">'+cnt+' thẻ liên quan</strong>':'')+
+    '? Không thể hoàn tác.</div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Xóa',c:'btn-danger',f:'doDeleteSub('+ti+','+si+')'}]
+  );
+}
+function doDeleteSub(ti,si){
+  var s=DB.topics[ti].subs[si];
+  Object.keys(DB.cards).forEach(k=>{ if(DB.cards[k].sid===s.id)delete DB.cards[k]; });
+  DB.topics[ti].subs.splice(si,1); DB.save(); closeModal(); renderSettings(); toast('Đã xóa','ok');
+}
+
+function modalClear(){
+  showModal('Xóa tất cả thẻ',
+    '<div style="color:var(--text2);">Tất cả <strong style="color:var(--red)">'+DB.all().length+' thẻ</strong> và tiến độ Anki sẽ bị xóa. Cấu hình topic và lộ trình vẫn giữ.</div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Xóa hết thẻ',c:'btn-danger',f:'doClear()'}]
+  );
+}
+function doClear(){ DB.cards={}; DB.streak=0; DB.lastStudy=null; DB.save(); closeModal(); renderSettings(); toast('Đã xóa tất cả thẻ','ok'); }
+
+function modalSetApiKey(){
+  var cur=DB.settings.apiKey||'';
+  showModal('Nhập Anthropic API Key',
+    '<div style="background:var(--bg3);border-radius:var(--r2);padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--text2);line-height:1.8;">'+
+    '<div style="font-weight:600;color:var(--text);margin-bottom:6px;">📌 Cách lấy API Key:</div>'+
+    '<div>1. Vào <strong style="color:var(--accent)">console.anthropic.com</strong></div>'+
+    '<div>2. Đăng nhập → chọn <strong style="color:var(--text)">API Keys</strong></div>'+
+    '<div>3. Nhấn <strong style="color:var(--text)">Create Key</strong> → copy key</div>'+
+    '<div style="margin-top:8px;font-size:11px;color:var(--text3);">Key bắt đầu bằng <span style="font-family:var(--mono);color:var(--accent)">sk-ant-api03-...</span></div>'+
+    '</div>'+
+    '<div class="field"><label class="lbl">API Key</label>'+
+    '<input class="inp" id="key-inp" type="password" placeholder="sk-ant-api03-..." value="'+cur+'" style="font-family:var(--mono);font-size:13px;letter-spacing:1px;"/>'+
+    '<div style="font-size:11px;color:var(--text3);margin-top:6px;">🔒 Key lưu trong localStorage trên máy bạn, chỉ gửi tới Anthropic API khi generate.</div></div>',
+    [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Lưu API Key',c:'btn-primary',f:'saveApiKey()'}]
+  );
+  setTimeout(()=>{ var i=document.getElementById('key-inp'); if(i){i.type='text';i.focus();} },200);
+}
+function saveApiKey(){
+  var v=(document.getElementById('key-inp').value||'').trim();
+  if(!v){toast('Nhập API Key!','err');return;}
+  if(!v.startsWith('sk-')){toast('Key không hợp lệ — phải bắt đầu sk-','err');return;}
+  DB.settings.apiKey=v; DB.save(); closeModal(); renderSettings(); toast('✓ Đã lưu API Key','ok');
+}
+function doSaveKey(){
+  var inp=document.getElementById('key-inp');
+  if(!inp||!inp.value.trim()){toast('Nhập API key trước!','err');return;}
+  var k=inp.value.trim();
+  if(!k.startsWith('sk-')){toast('Key không hợp lệ — phải bắt đầu bằng sk-','err');return;}
+  DB.settings.apiKey=k; DB.save();
+  toast('✓ Đã lưu API key!','ok');
+  renderSettings();
+}
+function doRemoveKey(){
+  DB.settings.apiKey=''; DB.save();
+  toast('Đã xóa API key','ok');
+  renderSettings();
+}
+function removeApiKey(){
+  DB.settings.apiKey=''; DB.save(); renderSettings(); toast('Đã xóa API Key','ok');
+}
+
+
+function exportData(){
+  var blob=new Blob([JSON.stringify({cards:DB.cards,topics:DB.topics},null,2)],{type:'application/json'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='devlingo-backup.json'; a.click();
+  toast('Đã export','ok');
+}
+
+/* ─────────────────────────── MODAL ─────────────────────────── */
+function showModal(title,body,btns){
+  document.getElementById('mo-title').textContent=title;
+  document.getElementById('mo-body').innerHTML=body;
+  document.getElementById('mo-footer').innerHTML=btns.map(b=>'<button class="btn '+b.c+'" onclick="'+b.f+'">'+b.l+'</button>').join('');
+  document.getElementById('mo').classList.add('open');
+}
+function closeModal(){ document.getElementById('mo').classList.remove('open'); }
+document.getElementById('mo').addEventListener('click',e=>{ if(e.target===document.getElementById('mo'))closeModal(); });
+
+/* ─────────────────────────── TOAST ─────────────────────────── */
+function toast(msg,type){
+  document.getElementById('toasts').innerHTML=''; // clear previous
+  var icons={ok:'✓',err:'✗',info:'ℹ'};
+  var el=document.createElement('div');
+  el.className='toast t-'+(type==='ok'?'ok':type==='err'?'err':'info');
+  el.innerHTML='<span>'+icons[type||'info']+'</span><span>'+msg+'</span>';
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>{ if(el.parentNode)el.remove(); },4000);
+}
+
+/* ─────────────────────────── INIT ─────────────────────────── */
+DB.init();
+nav('roadmap');
+updateDue();
+</script>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mn-item active" id="mn-roadmap" onclick="nav('roadmap')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      Lộ trình
+    </button>
+    <button class="mn-item" id="mn-gym" onclick="nav('gym')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4M8 12h8"/></svg>
+      Gym
+      <span id="mn-due-dot" style="display:none" class="mn-due"></span>
+    </button>
+    <button class="mn-item" id="mn-settings" onclick="nav('settings')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Cài đặt
+    </button>
+  </div>
+</div>
+</body>
+</html>

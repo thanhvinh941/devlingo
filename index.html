@@ -293,6 +293,21 @@ select.inp{cursor:pointer;}
   /* API key block */
   #key-inp{font-size:12px;}
 }
+
+/* ── PASSWORD SCREEN ── */
+.pw-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;}
+.pw-box{width:100%;max-width:340px;}
+.pw-logo{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:4px;}
+.pw-logo span{color:var(--accent);}
+.pw-mono{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:36px;}
+.pw-inp{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:14px 16px;color:var(--text);font-size:16px;outline:none;letter-spacing:3px;font-family:var(--sans);transition:border-color .15s;}
+.pw-inp:focus{border-color:var(--accent);}
+.pw-btn{width:100%;margin-top:10px;padding:14px;border-radius:var(--r2);background:var(--accent);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:var(--sans);}
+.pw-btn:hover{background:#6b5aee;}
+.pw-err{font-size:12px;color:var(--red);margin-top:8px;text-align:center;min-height:18px;}
+.pw-hint{font-size:11px;color:var(--text3);margin-top:24px;text-align:center;line-height:1.7;}
+@keyframes pw-shake{0%,100%{transform:translateX(0)}25%,75%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
+.pw-shake{animation:pw-shake .35s ease;}
 </style>
 </head>
 <body>
@@ -1115,6 +1130,11 @@ function renderSettings(){
     '<button class="btn btn-ghost" onclick="changePw()">🔑 Đổi mật khẩu</button>'+
     '<button class="btn btn-danger" onclick="logout()">Đăng xuất</button>'+
     '</div>'+
+    '<div class="slbl">Bảo mật</div>'+
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">'+
+    '<button class="btn btn-ghost" onclick="changePw()">🔑 Đổi mật khẩu</button>'+
+    '<button class="btn btn-danger" onclick="doLogout()">Đăng xuất</button>'+
+    '</div>'+
     '<div class="slbl">Dữ liệu</div>'+
     '<div style="display:flex;gap:10px;flex-wrap:wrap;">'+
     '<button class="btn btn-ghost" onclick="exportData()">Export JSON</button>'+
@@ -1310,7 +1330,57 @@ function toast(msg,type){
 }
 
 /* ─────────────────────────── INIT ─────────────────────────── */
+
+/* ── PASSWORD ── */
+function getPw(){ return localStorage.getItem('dlpw')||'devlingo'; }
+function isPwSession(){ return Date.now() < parseInt(localStorage.getItem('dlsess')||'0'); }
+
+function checkPw(){
+  var inp=document.getElementById('pw-inp');
+  var err=document.getElementById('pw-err');
+  var val=(inp.value||'').trim();
+  if(!val){ err.textContent='Nhập mật khẩu!'; return; }
+  if(val===getPw()){
+    localStorage.setItem('dlsess', Date.now()+7*24*60*60*1000);
+    var s=document.getElementById('pw-screen');
+    s.style.transition='opacity .25s';
+    s.style.opacity='0';
+    setTimeout(function(){ s.style.display='none'; },250);
+  } else {
+    err.textContent='Sai mật khẩu — thử lại!';
+    inp.classList.remove('pw-shake');
+    void inp.offsetWidth;
+    inp.classList.add('pw-shake');
+    inp.value=''; inp.focus();
+  }
+}
+
+function initPw(){
+  if(isPwSession()){
+    document.getElementById('pw-screen').style.display='none';
+  } else {
+    setTimeout(function(){ var i=document.getElementById('pw-inp'); if(i)i.focus(); },200);
+  }
+}
+
+function changePw(){
+  var cur=prompt('Mật khẩu hiện tại:');
+  if(cur===null) return;
+  if(cur!==getPw()){ toast('Sai mật khẩu hiện tại!','err'); return; }
+  var nw=prompt('Mật khẩu mới (ít nhất 4 ký tự):');
+  if(!nw||nw.length<4){ toast('Mật khẩu phải có ít nhất 4 ký tự!','err'); return; }
+  if(nw!==prompt('Nhập lại mật khẩu mới:')){ toast('Mật khẩu không khớp!','err'); return; }
+  localStorage.setItem('dlpw',nw);
+  toast('✓ Đã đổi mật khẩu!','ok');
+}
+
+function doLogout(){
+  localStorage.removeItem('dlsess');
+  location.reload();
+}
+
 DB.init();
+initPw();
 nav('roadmap');
 updateDue();
 </script>
@@ -1333,5 +1403,20 @@ updateDue();
     </button>
   </div>
 </div>
+
+<div class="pw-screen" id="pw-screen">
+  <div class="pw-box">
+    <div class="pw-logo">Dev<span>Lingo</span></div>
+    <div class="pw-mono">// english for devs</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:500;">Nhập mật khẩu để vào app</div>
+    <input class="pw-inp" id="pw-inp" type="password" placeholder="••••••••"
+      autocomplete="current-password"
+      onkeydown="if(event.key==='Enter')checkPw()"/>
+    <button class="pw-btn" onclick="checkPw()">Vào app →</button>
+    <div class="pw-err" id="pw-err"></div>
+    <div class="pw-hint">Mật khẩu mặc định: <span style="font-family:var(--mono);color:var(--accent);">devlingo</span><br>Đổi mật khẩu trong Cài đặt sau khi vào.</div>
+  </div>
+</div>
+
 </body>
 </html>

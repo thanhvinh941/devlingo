@@ -427,21 +427,9 @@ function getApiKey(){
   return (DB.settings.apiKey||'').trim();
 }
 function requireApiKey(){
-  var k=getApiKey();
+  var k=(DB.settings.apiKey||'').trim();
   if(!k){
-    showModal('Cần API Key',
-      '<div style="color:var(--text2);margin-bottom:16px;">Bạn cần nhập <strong style="color:var(--text)">Anthropic API Key</strong> để dùng tính năng Generate với AI.</div>'+
-      '<div style="background:var(--bg3);border-radius:var(--r2);padding:14px;font-size:13px;color:var(--text2);line-height:1.7;">'+
-      '<div style="margin-bottom:8px;">📌 Cách lấy API Key:</div>'+
-      '<div>1. Vào <strong style="color:var(--accent)">console.anthropic.com</strong></div>'+
-      '<div>2. Đăng ký / đăng nhập tài khoản</div>'+
-      '<div>3. Vào <strong style="color:var(--text)">API Keys</strong> → tạo key mới</div>'+
-      '<div>4. Copy key (bắt đầu bằng <span style="font-family:var(--mono);color:var(--accent)">sk-ant-...</span>)</div></div>'+
-      '<div style="margin-top:14px;"><label class="lbl">Nhập API Key của bạn:</label>'+
-      '<input class="inp" id="quick-key" placeholder="sk-ant-api03-..." style="font-family:var(--mono);font-size:13px;"/>'+
-      '<div style="font-size:11px;color:var(--text3);margin-top:6px;">Key được lưu trong localStorage trên máy bạn, không gửi đi đâu ngoài Anthropic API.</div></div>',
-      [{l:'Hủy',c:'btn-ghost',f:'closeModal()'},{l:'Lưu & tiếp tục',c:'btn-primary',f:'saveQuickKey()'}]
-    );
+    toast('⚠️ Chưa có API Key! Vào Cài đặt → nhập key','err');
     return false;
   }
   return true;
@@ -493,7 +481,7 @@ async function aiGenCards(subTitle, topicTitle, isSummary, allSubTitles){
   var res;
   try{
     if(_prov==='gemini'){
-      res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+_k,
+      res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key='+_k,
         {method:'POST',headers:{'Content-Type':'application/json'},
          body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.7,maxOutputTokens:2000}})});
     } else {
@@ -530,7 +518,7 @@ async function aiGymFill(card){
   var p='Tạo 1 câu fill-in-the-blank cho SE dùng từ "'+card.word+'" (nghĩa: '+card.meaning+').\n'+'Chỉ trả về JSON: {"sentence":"câu với ___ thay thế từ","context":"tình huống tiếng Việt"}\n'+'Bắt đầu bằng {';
   var res;
   if(_prov==='gemini'){
-    res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+_k,
+    res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key='+_k,
       {method:'POST',headers:{'Content-Type':'application/json'},
        body:JSON.stringify({contents:[{parts:[{text:p}]}],generationConfig:{maxOutputTokens:200}})});
   } else {

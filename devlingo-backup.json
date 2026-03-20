@@ -1,0 +1,385 @@
+{
+  "cards": {
+    "p-done_0_1774002015883": {
+      "id": "p-done_0_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Task Completed",
+      "ipa": "/tɑːsk kəmˈpliːtɪd/",
+      "meaning": "Nhiệm vụ đã được hoàn thành.",
+      "example": "The **task completed** report shows we are ahead of schedule.",
+      "ef": 2.35,
+      "iv": 1,
+      "reps": 1,
+      "due": 1774088496044
+    },
+    "p-done_1_1774002015883": {
+      "id": "p-done_1_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Milestone Achieved",
+      "ipa": "/ˈmaɪlstəʊn əˈtʃiːvd/",
+      "meaning": "Cột mốc quan trọng đã đạt được.",
+      "example": "We're pleased to announce that the **milestone achieved** in this phase is significant.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_2_1774002015883": {
+      "id": "p-done_2_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Deliverable Submitted",
+      "ipa": "/dɪˈlɪvərəbl səbˈmɪtɪd/",
+      "meaning": "Sản phẩm bàn giao đã được nộp.",
+      "example": "The final **deliverable submitted** today meets all client requirements.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_3_1774002015883": {
+      "id": "p-done_3_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Work Done",
+      "ipa": "/wɜːk dʌn/",
+      "meaning": "Công việc đã làm xong.",
+      "example": "This section of the report details the **work done** so far.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_4_1774002015883": {
+      "id": "p-done_4_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Objective Met",
+      "ipa": "/əbˈdʒɛktɪv mɛt/",
+      "meaning": "Mục tiêu đã đạt được.",
+      "example": "Our primary **objective met** marks a successful quarter.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_5_1774002015883": {
+      "id": "p-done_5_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Progress Update",
+      "ipa": "/ˈprəʊɡrɛs ˈʌpdeɪt/",
+      "meaning": "Cập nhật tiến độ.",
+      "example": "Here is the **progress update** for the current reporting period.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_6_1774002015883": {
+      "id": "p-done_6_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Status Report",
+      "ipa": "/ˈsteɪtəs rɪˈpɔːt/",
+      "meaning": "Báo cáo tình trạng.",
+      "example": "The **status report** confirms all pending tasks are now closed.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_7_1774002015883": {
+      "id": "p-done_7_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Task Closure",
+      "ipa": "/tɑːsk ˈkləʊʒər/",
+      "meaning": "Việc đóng/kết thúc một nhiệm vụ.",
+      "example": "We have initiated the **task closure** process for these items.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_8_1774002015883": {
+      "id": "p-done_8_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Completed Activities",
+      "ipa": "/kəmˈpliːtɪd ækˈtɪvɪtiz/",
+      "meaning": "Các hoạt động đã hoàn thành.",
+      "example": "The list of **completed activities** is attached for your review.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_9_1774002015883": {
+      "id": "p-done_9_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Successfully Executed",
+      "ipa": "/səkˈsɛsfʊli ˈɛksɪkjʊtɪd/",
+      "meaning": "Đã thực hiện thành công.",
+      "example": "The new feature was **successfully executed** and is now live.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_10_1774002015883": {
+      "id": "p-done_10_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Finished",
+      "ipa": "/ˈfɪnɪʃt/",
+      "meaning": "Đã xong.",
+      "example": "All assigned tasks are **finished**.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_11_1774002015883": {
+      "id": "p-done_11_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Wrapped Up",
+      "ipa": "/ræpt ʌp/",
+      "meaning": "Đã hoàn thành, kết thúc.",
+      "example": "We have **wrapped up** the initial development phase.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_12_1774002015883": {
+      "id": "p-done_12_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "Task accomplished",
+      "ipa": "/tɑːsk əˈkʌmplɪʃt/",
+      "meaning": "Nhiệm vụ đã hoàn thành.",
+      "example": "The **task accomplished** contributes to our overall project goals.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_13_1774002015883": {
+      "id": "p-done_13_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "All done",
+      "ipa": "/ɔːl dʌn/",
+      "meaning": "Hoàn thành hết.",
+      "example": "Just wanted to let you know, it's **all done** on my end.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    },
+    "p-done_14_1774002015883": {
+      "id": "p-done_14_1774002015883",
+      "tid": "progress",
+      "sid": "p-done",
+      "word": "No outstanding items",
+      "ipa": "/nəʊ ˈaʊtˌstændɪŋ ˈaɪtəmz/",
+      "meaning": "Không còn mục nào tồn đọng.",
+      "example": "For this sprint, there are **no outstanding items**.",
+      "ef": 2.5,
+      "iv": 1,
+      "reps": 0,
+      "due": 1774002015883
+    }
+  },
+  "topics": [
+    {
+      "id": "progress",
+      "title": "Báo cáo tiến độ",
+      "icon": "📊",
+      "desc": "Giao tiếp về tiến độ công việc trong sprint",
+      "subs": [
+        {
+          "id": "p-done",
+          "title": "Báo cáo task đã hoàn thành",
+          "icon": "✅",
+          "desc": "Thông báo khi task xong sớm hoặc đúng hạn"
+        },
+        {
+          "id": "p-late",
+          "title": "Giải trình task bị chậm",
+          "icon": "⏰",
+          "desc": "Giải thích lý do trễ deadline chuyên nghiệp"
+        },
+        {
+          "id": "p-bug",
+          "title": "Thông báo vấn đề kỹ thuật",
+          "icon": "🐛",
+          "desc": "Báo cáo bug, incident cho team"
+        },
+        {
+          "id": "p-help",
+          "title": "Nhờ team giúp đỡ task khó",
+          "icon": "🤝",
+          "desc": "Yêu cầu hỗ trợ một cách rõ ràng"
+        },
+        {
+          "id": "p-change",
+          "title": "Cập nhật thay đổi bất ngờ",
+          "icon": "🔄",
+          "desc": "Thông báo scope thay đổi từ khách hàng"
+        },
+        {
+          "id": "p-all",
+          "title": "Tổng kết — Báo cáo tiến độ",
+          "icon": "🏆",
+          "desc": "Tổng hợp tất cả vocabulary và phrases của topic này"
+        }
+      ]
+    },
+    {
+      "id": "techdesign",
+      "title": "Giải trình thiết kế kỹ thuật",
+      "icon": "🏗️",
+      "desc": "Bảo vệ và giải thích các quyết định kỹ thuật",
+      "subs": [
+        {
+          "id": "td-defend",
+          "title": "Bảo vệ lựa chọn công nghệ",
+          "icon": "🛡️",
+          "desc": "Thuyết phục sếp về tech stack bạn chọn"
+        },
+        {
+          "id": "td-explain",
+          "title": "Giải thích thiết kế phức tạp",
+          "icon": "🗺️",
+          "desc": "Đơn giản hóa kiến trúc cho người không tech"
+        },
+        {
+          "id": "td-risk",
+          "title": "Trình bày rủi ro thiết kế",
+          "icon": "⚠️",
+          "desc": "Nêu trade-off và risk mitigation"
+        },
+        {
+          "id": "td-all",
+          "title": "Tổng kết — Thiết kế kỹ thuật",
+          "icon": "🏆",
+          "desc": "Tổng hợp tất cả vocabulary và phrases"
+        }
+      ]
+    },
+    {
+      "id": "codereview",
+      "title": "Trao đổi code",
+      "icon": "💻",
+      "desc": "Giao tiếp hiệu quả trong code review",
+      "subs": [
+        {
+          "id": "cr-explain",
+          "title": "Giải thích logic code",
+          "icon": "🔍",
+          "desc": "Giải thích đoạn code phức tạp cho đồng nghiệp"
+        },
+        {
+          "id": "cr-feedback",
+          "title": "Phản hồi comment code review",
+          "icon": "💬",
+          "desc": "Trả lời comment gay gắt lịch sự, chuyên nghiệp"
+        },
+        {
+          "id": "cr-admit",
+          "title": "Thừa nhận sai sót trong code",
+          "icon": "🙏",
+          "desc": "Nhận lỗi và đề xuất cách sửa"
+        },
+        {
+          "id": "cr-naming",
+          "title": "Giải thích lựa chọn tên biến",
+          "icon": "🏷️",
+          "desc": "Bảo vệ naming convention của mình"
+        },
+        {
+          "id": "cr-all",
+          "title": "Tổng kết — Trao đổi code",
+          "icon": "🏆",
+          "desc": "Tổng hợp tất cả vocabulary và phrases"
+        }
+      ]
+    },
+    {
+      "id": "requirements",
+      "title": "Làm rõ yêu cầu",
+      "icon": "📋",
+      "desc": "Giao tiếp với PO, PM về requirements",
+      "subs": [
+        {
+          "id": "rq-clarify",
+          "title": "Làm rõ yêu cầu mơ hồ",
+          "icon": "❓",
+          "desc": "Hỏi lại PO khi requirements chưa rõ"
+        },
+        {
+          "id": "rq-edge",
+          "title": "Trình bày edge case với PO",
+          "icon": "🔦",
+          "desc": "Chỉ ra các trường hợp ngoại lệ PO chưa nghĩ đến"
+        },
+        {
+          "id": "rq-limit",
+          "title": "Giải thích giới hạn kỹ thuật",
+          "icon": "🚧",
+          "desc": "Nói với PO khi feature không khả thi kỹ thuật"
+        },
+        {
+          "id": "rq-scope",
+          "title": "Thương lượng phạm vi sprint",
+          "icon": "⚖️",
+          "desc": "Negotiate với PO về scope khi team quá tải"
+        },
+        {
+          "id": "rq-all",
+          "title": "Tổng kết — Làm rõ yêu cầu",
+          "icon": "🏆",
+          "desc": "Tổng hợp tất cả vocabulary và phrases"
+        }
+      ]
+    },
+    {
+      "id": "demo",
+      "title": "Demo & Trình bày tính năng",
+      "icon": "🎯",
+      "desc": "Thuyết trình và demo sản phẩm",
+      "subs": [
+        {
+          "id": "dm-present",
+          "title": "Trình bày tính năng mới",
+          "icon": "✨",
+          "desc": "Walk through feature với khách hàng"
+        },
+        {
+          "id": "dm-bug",
+          "title": "Xử lý lỗi khi đang demo",
+          "icon": "😰",
+          "desc": "Bình tĩnh handle khi bug xảy ra trực tiếp"
+        },
+        {
+          "id": "dm-feedback",
+          "title": "Tiếp nhận phản hồi tiêu cực",
+          "icon": "📝",
+          "desc": "Nhận feedback từ sếp sau buổi demo"
+        },
+        {
+          "id": "dm-all",
+          "title": "Tổng kết — Demo & Trình bày",
+          "icon": "🏆",
+          "desc": "Tổng hợp tất cả vocabulary và phrases"
+        }
+      ]
+    }
+  ]
+}

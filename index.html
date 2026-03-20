@@ -1137,8 +1137,10 @@ function renderSettings(){
     '</div>'+
     '<div class="slbl">Dữ liệu</div>'+
     '<div style="display:flex;gap:10px;flex-wrap:wrap;">'+
-    '<button class="btn btn-ghost" onclick="exportData()">Export JSON</button>'+
-    '<button class="btn btn-danger" onclick="modalClear()">Xóa tất cả thẻ</button></div>';
+    '<button class="btn btn-ghost" onclick="exportData()">↑ Export JSON</button>'+
+    '<button class="btn btn-ghost" onclick="triggerImport()">↓ Import JSON</button>'+
+    '<button class="btn btn-danger" onclick="modalClear()">Xóa tất cả thẻ</button></div>'+
+    '<input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"/>';
 
   h+='</div>';
   document.getElementById('main').innerHTML=h;
@@ -1306,6 +1308,103 @@ function exportData(){
   var blob=new Blob([JSON.stringify({cards:DB.cards,topics:DB.topics},null,2)],{type:'application/json'});
   var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='devlingo-backup.json'; a.click();
   toast('Đã export','ok');
+}
+
+
+/* ── IMPORT / EXPORT ── */
+function triggerImport(){
+  var el=document.getElementById('import-file');
+  if(el){ el.value=''; el.click(); }
+}
+
+function importData(event){
+  var file=event.target.files[0];
+  if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var data=JSON.parse(e.target.result);
+
+      // Validate structure
+      if(typeof data !== 'object') throw new Error('File không đúng định dạng');
+
+      var importedCards = data.cards || {};
+      var importedTopics = data.topics || [];
+      var cardCount = Object.keys(importedCards).length;
+      var topicCount = importedTopics.length;
+
+      if(cardCount===0 && topicCount===0){
+        throw new Error('File không có dữ liệu hợp lệ');
+      }
+
+      // Show confirmation modal
+      showModal('Xác nhận Import',
+        '<div style="font-size:13px;color:var(--text2);line-height:1.8;">'+
+        '<div style="background:var(--bg3);border-radius:var(--r2);padding:12px 14px;margin-bottom:16px;">'+
+        '<div>📦 <strong style="color:var(--text)">'+cardCount+'</strong> thẻ học</div>'+
+        '<div>📚 <strong style="color:var(--text)">'+topicCount+'</strong> topics</div>'+
+        '</div>'+
+        '<div style="margin-bottom:10px;">Chọn cách import:</div>'+
+        '<label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer;">'+
+        '<input type="radio" name="import-mode" value="merge" checked style="margin-top:3px;accent-color:var(--accent)"/>'+
+        '<div><div style="font-weight:600;color:var(--text);">Gộp vào data hiện tại</div>'+
+        '<div style="font-size:11px;color:var(--text3);">Giữ thẻ cũ + thêm thẻ mới từ file</div></div>'+
+        '</label>'+
+        '<label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">'+
+        '<input type="radio" name="import-mode" value="replace" style="margin-top:3px;accent-color:var(--accent)"/>'+
+        '<div><div style="font-weight:600;color:var(--text);">Thay thế toàn bộ</div>'+
+        '<div style="font-size:11px;color:var(--red);">Xóa data hiện tại, dùng data từ file</div></div>'+
+        '</label>'+
+        '</div>',
+        [
+          {l:'Hủy', c:'btn-ghost', f:'closeModal()'},
+          {l:'Import', c:'btn-primary', f:'confirmImport('+JSON.stringify(JSON.stringify(data))+')'}
+        ]
+      );
+    }catch(err){
+      toast('Lỗi đọc file: '+err.message,'err');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function confirmImport(dataStr){
+  try{
+    var data=JSON.parse(dataStr);
+    var mode=document.querySelector('input[name="import-mode"]:checked');
+    var isReplace=mode&&mode.value==='replace';
+
+    if(isReplace){
+      // Replace everything
+      if(data.cards) DB.cards=data.cards;
+      if(data.topics && data.topics.length) DB.topics=data.topics;
+    } else {
+      // Merge — cards: add new ones, skip duplicates by id
+      if(data.cards){
+        var newCount=0;
+        Object.keys(data.cards).forEach(function(k){
+          if(!DB.cards[k]){ DB.cards[k]=data.cards[k]; newCount++; }
+        });
+      }
+      // Merge topics: add topics that don't exist by id
+      if(data.topics && data.topics.length){
+        data.topics.forEach(function(t){
+          var exists=DB.topics.find(function(x){return x.id===t.id;});
+          if(!exists) DB.topics.push(t);
+        });
+      }
+    }
+
+    DB.save();
+    closeModal();
+
+    var cardCount=Object.keys(data.cards||{}).length;
+    toast('✓ Import thành công — '+cardCount+' thẻ','ok');
+    renderSettings();
+    updateDue();
+  }catch(err){
+    toast('Lỗi import: '+err.message,'err');
+  }
 }
 
 /* ─────────────────────────── MODAL ─────────────────────────── */
